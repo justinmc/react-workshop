@@ -62,17 +62,134 @@
                 <script type="text/template">
                   <div class="section">What is React?</div>
                   ## Roots: Direct DOM Manipulation
-                  ![Direct DOM Manipulation Example](./img/spaghetti.gif)
+                  Source: [http://codepen.io/justinmc/pen/oBRKeG](http://codepen.io/justinmc/pen/oBRKeG)
+                  ```javascript
+                  <button class="adder">+1</button>
+<div class="count">0</div>
+                  ```
+                  ```javascript
+                  var adderEl = document.querySelector('.adder');
+                  var countEl = document.querySelector('.count');
+
+                  adderEl.addEventListener('click', function() {
+                    var currentValue = countEl.innerHTML;
+                    countEl.innerHTML = parseInt(currentValue) + 1;
+                  });
+                  ```
+                  ![Direct DOM Manipulation Example](./img/increment.gif)
                   <aside class="notes">
-                    I was originally going to call this slide "jQuery Spaghetti".
+                    I was originally going to call this slide "jQuery Spaghetti".  This is great for simple interactivity, but is hard to maintain in large applications.
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  <div class="section">What is React?</div>
+                  ## Roots: MVC
+                  ![MVC Diagram](./img/MVC-basic.svg)
+                  <aside class="notes">
+                    Keep state in javascript, mutate state, and rerender. Backbone is a great example.  Potential performance problems with totally rerendering too much.
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  <div class="section">What is React?</div>
+                  ## Enter React
+                  <ol>
+                    <li class="fragment">Render HTML based on data.</li>
+                    <li class="fragment">Do subsequent renders incredibly quickly.</li>
+                    <li class="fragment">That's pretty much it.</li>
+                  </ol>
+                  <aside class="notes">
+                    Very minimal.  Not a full MVC setup.  Plays well with others.  Solves the performance problem of rerendering too much.
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown data-transition="none">
+                <script type="text/template">
+                  <div class="section">What is React?</div>
+                  ## React: Data => HTML
+                  ```javascript
+                  function MyReactComponent() {
+                    const myButtonLabel = 'Click Me!';
+                    const myButtonIsDisabled = false;
+
+                    return (
+                      <button
+                        className="pretty-button"
+                        disabled={myButtonIsDisabled}
+                      >
+                        {myButtonLabel}
+                      </button>
+                    );
+                  }
+                  ```
+                  ![React Button Component Enabled](./img/button_component_enabled.png)
+                  <aside class="notes">
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown data-transition="none">
+                <script type="text/template">
+                  <div class="section">What is React?</div>
+                  ## React: Data => HTML
+                  ```javascript
+                  function MyReactComponent() {
+                    const myButtonLabel = 'Don\'t Click Me :(';
+                    const myButtonIsDisabled = true;
+
+                    return (
+                      <button
+                        className="pretty-button"
+                        disabled={myButtonIsDisabled}
+                      >
+                        {myButtonLabel}
+                      </button>
+                    );
+                  }
+                  ```
+                  ![React Button Component Enabled](./img/button_component_disabled.png)
+                  <aside class="notes">
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  ## Wait but how are you writing HTML in your JS?
+                  <ul>
+                    <li class="fragment">It's called JSX!</li>
+                    <li class="fragment">It's a preprocessing language that gets compiled to plain old javascript.</li>
+                  </ul>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  ## JSX
+                  ```javascript
+                    return (
+                      <p className="prose">Lorem Ipsum</p>
+                    );
+                  ```
+                  =>
+                  ```javascript
+                  return React.createElement(
+                    "p",
+                    { className: "prose" },
+                    "Lorem Ipsum"
+                  );
+                  ```
+                  If you want to play around with compiling to JSX, try [Babel's repl](https://babeljs.io/repl) (don't forget to turn on the "react" preset).
+                  <aside class="notes">
+                    Very similar to document.createElement!  We're going to use jsx in this workshop because it is very prevalent.
                   </aside>
                 </script>
               </section>
               <section data-markdown>
                 <script type="text/template">
                   ## Tips!
-                  * Whenever you finish a task, commit!
-				  - That way, if we have to move on while you're still working, you can stash and get back to a working state.
+                  - Whenever you finish a task, commit!
+                    - That way, if we have to move on while you're still working, you can stash and get back to a working state.
                 </script>
               </section>
               <section data-markdown>
