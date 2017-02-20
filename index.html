@@ -243,7 +243,7 @@
                     1. <span class="task-basic">Edit the big title on the page and see it update in your browser.</span>
                     1. <span class="task-basic">Create your own "Post" React component and render it.</span>
                     1. <span class="task-basic">Make it awesome with CSS and hardcoded info.</span>
-                    1. <span class="task-advanced">Install a linter like the [airbnb eslint config](https://www.npmjs.com/package/eslint-config-airbnb) and make your code comply!</span>
+                    1. <span class="task-advanced">Install a linter like the [airbnb eslint config](https://www.npmjs.com/package/eslint-config-airbnb) and make your jsx code comply!</span>
                     1. <span class="task-extra">Install [redux](http://redux.js.org/), create a Container above your "Post" component, and feed it dummy data.</span>
                   </script>
                 </section>
@@ -416,20 +416,209 @@
                 <section data-markdown>
                   <script type="text/template">
                     ## Sprint 1
-                    1. <span class="task-basic"></span>
-                    1. <span class="task-advanced"></span>
-                    1. <span class="task-extra"></span>
+                    1. <span class="task-basic">Feed your nested components data via props.</span>
+                    1. <span class="task-basic">Add some local dynamic interactions with state.</span>
+                    1. <span class="task-advanced">Build some generic UI components for your app like a `<Button />`.</span>
+                    1. <span class="task-extra">When the user performs an action like the one controlled by state in this sprint, call an action, dispatch an event, and modify state via a reducer.</span>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 1</div>
-                    ## Book Component
+                    ## Props and State
+                    - Props is an object containing all data passed in to the component.
+                    - State is an object representing all state internal to the component.
+                    - Anytime either one changes, the component will rerender.
+                    <aside class="notes">
+                      Component will kick off its whole process of DOM diffing and modifying the DOM if necessary.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Passing Props to the Book Component
+                    `App.js`
                     ```javascript
+                    <ul>
+                      <Book
+                        title="Treasure Island"
+                        author="Robert Louis Stevenson"
+                      />
+                      <Book
+                        title="Go Dog Go"
+                        author="Dr. Seuss"
+                      />
+                    </ul>
+                    ```
+                    <aside class="notes">
+                      You can pass any javascript primitives or variables as props!
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Passing Props to the Book Component
+                    `Book.js`
+                    ```javascript
+                    class Book extends Component {
+                      render() {
+                        return (
+                          <li
+                            className="book"
+                          >
+                            <div>
+                              {this.props.title}
+                            </div>
+                            <div>
+                              {`by ${this.props.author}`}
+                            </div>
+                          </li>
+                        );
+                      }
+                    }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Prop Types and Default Props
+                    You can tell React what types to expect for each prop value, whether or not they're required, and what value to use as a default if not.
+                    ```javascript
+                    static defaultProps = {}
+
+                    static propTypes = {
+                      title: React.PropTypes.string.isRequired,
+                      author: React.PropTypes.string.isRequired,
+                    }
+                    ```
+                    <aside class="notes">
+                      This syntax is equivalent to `Book.defaultProps = {};` etc.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## State
+                    I'll add a "favorite" indicator on books that I want to work something like this:
+                    <br />
+                    ![State UI](./img/state.gif)
+                    <div class="section">Sprint 1</div>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## State
+                    `Book.js` and `Book.css`
+                    ```javascript
+                    <div>
+                      <span className="favorite" />
+                      {this.props.title}
+                    </div>
+                    ```
+                    ```css
+                    .favorite {
+                      display: inline-block;
+                      background-color: #dfdfdf;
+                      height: 16px;
+                      width: 16px;
+                      border-radius: 8px;
+                      margin: 6px;
+                    }
+                    .favorite.enabled {
+                      background-color: tomato;
+                    }
+                    ```
+                    <aside class="notes">
+                      If I add the "enabled" class to the span, it will show filled red.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## State
+                    `Book.js`
+                    ```javascript
+                    const favoriteClass = this.state.favorited ? 'enabled' : '';
+
+                    return (
+                      <li
+                        className="book"
+                      >
+                        <div>
+                          <span className={`favorite ${favoriteClass}`} />
+                          {this.props.title}
+                        </div>
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Initial State
+                    `Book.js`
+                    ```javascript
+                    constructor(props) {
+                      super(props);
+
+                      this.state = {
+                        favorited: false,
+                      };
+                    }
+                    ```
+                    <aside class="notes">
+                      If you're not using es6 classes, you can use getInitialState.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Make it Dynamic
+                    `Book.js`
+                    ```javascript
+                    onClickFavorite = () => {
+                      this.setState({
+                        favorited: !this.state.favorited,
+                      });
+                    }
+                    ```
+                    ```
+                    <span
+                      className={`favorite ${favoriteClass}`}
+                      onClick={this.onClickFavorite}
+                    />
+                    ```
+                    <aside class="notes">
+                      This is es7 class property declaration syntax.  Otherwise, `onClickFavorite() {` and `this.onClickFavorite = this.onClickFavorite.bind(this)` in constructor.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## State All Done
+                    `Book.js`
+                    ```
                     import React, { Component } from 'react';
                     import '../css/Book.css';
 
                     class Book extends Component {
+                      static propTypes = {
+                        title: React.PropTypes.string.isRequired,
+                        author: React.PropTypes.string.isRequired,
+                      }
+
                       constructor(props) {
                         super(props);
 
@@ -438,7 +627,7 @@
                         };
                       }
 
-                      onClick = () => {
+                      onClickFavorite = () => {
                         this.setState({
                           favorited: !this.state.favorited,
                         });
@@ -450,10 +639,12 @@
                         return (
                           <li
                             className="book"
-                            onClick={this.onClick}
                           >
                             <div>
-                              <span className={`favorite ${favoriteClass}`} />
+                              <span
+                                className={`favorite ${favoriteClass}`}
+                                onClick={this.onClickFavorite}
+                              />
                               {this.props.title}
                             </div>
                             <div>
@@ -464,22 +655,8 @@
                       }
                     }
 
-                    Book.propTypes = {
-                      title: React.PropTypes.string.isRequired,
-                      author: React.PropTypes.string.isRequired,
-                    };
-
                     export default Book;
                     ```
-                    <aside class="notes">
-                      Note that we're using a class here instead of a function.  Both are ok!
-                    </aside>
-                  </script>
-                </section>
-                <section data-markdown>
-                  <script type="text/template">
-                    ![State UI](./img/state.gif)
-                    <div class="section">Sprint 1</div>
                     <aside class="notes">
                     </aside>
                   </script>
@@ -489,6 +666,7 @@
                     <div class="section">Sprint 1</div>
                     ## Questions before we [get started](#/4)?
                     <aside class="notes">
+                      Text inputs will come next.
                     </aside>
                   </script>
                 </section>
