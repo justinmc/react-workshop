@@ -229,50 +229,253 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  ## Sprint 0
+                  ## The Sprints
+                </script>
+              </section>
+              <section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Sprint 0
+                    1. <span class="task-basic">Generate a React app with [create-react-app](https://github.com/facebookincubator/create-react-app).</span>
+                    1. <span class="task-basic">Initialize a git repository.
+                    1. <span class="task-basic">Edit the big title on the page and see it update in your browser.</span>
+                    1. <span class="task-basic">Create your own "Post" React component and render it.</span>
+                    1. <span class="task-basic">Make it awesome with CSS and hardcoded info.</span>
+                    1. <span class="task-advanced">Install a linter like the [airbnb eslint config](https://www.npmjs.com/package/eslint-config-airbnb) and make your code comply!</span>
+                    1. <span class="task-extra">Install [redux](http://redux.js.org/), create a Container above your "Post" component, and feed it dummy data.</span>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## create-react-app
+                    - We're using it because it's easy and very widely used.
+                    - It will be compiling our jsx, es7, and serving the compiled static assets.
+                    - You can do fancier things with tools like Webpack and your own setup, though, so check those out if you end up with more build requirements.
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Default App.js component
+                    ```javascript
+                    import React, { Component } from 'react';
+                    import logo from './logo.svg';
+                    import './App.css';
+
+                    class App extends Component {
+                      render() {
+                        return (
+                          <div className="App">
+                            <div className="App-header">
+                              <img src={logo} className="App-logo" alt="logo" />
+                              <h2>Welcome to React</h2>
+                            </div>
+                            <p className="App-intro">
+                              To get started, edit <code>src/App.js</code> and save to reload.
+                            </p>
+                          </div>
+                        );
+                      }
+                    }
+
+                    export default App;
+                    ```
+                    <aside class="notes">
+                      Note that we're using a class here instead of a function.  Both are ok!
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Default App.js component
+                    ![Rendering of default component](./img/default_component.png)
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Customize it
+                    ```
+                    <div className="App-header">
+                      <img src={logo} className="App-logo" alt="logo" />
+                      <h2>Welcome to Justin's Awesome App!</h2>
+                    </div>
+                    ```
+                    ![Rendering of customized component](./img/default_component_customized.png)
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Customized it
+                    ```
+                    return (
+                      <div className="App">
+                        <div
+                          className="app-bar"
+                        >
+                          <div>Story Time</div>
+                        </div>
+                        <h2>Your Books</h2>
+                        <ul>
+                          <li>Treasure Island by Robert Louis Stevenson</li>
+                          <li>Go Dog Go by Dr. Seuss</li>
+                        </ul>
+                      </div>
+                    );
+                    ```
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Customized it
+                    ![Rendering of fully customized component](./img/default_component_fully_customized.png)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Components in Components
+                    ```
+                    <ul>
+                      <li>Treasure Island by Robert Louis Stevenson</li>
+                    </ul>
+                    ```
+                    <div class="fragment">
+                      ```
+                      <ul>
+                        <Book />
+                      </ul>
+                      ```
+                    </div>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Components in Components
+                    `components/Book.js`
+                    ```
+                    import React, { Component } from 'react';
+
+                    class Book extends Component {
+                      render() {
+                        return (
+                          <li>Treasure Island by Robert Louis Stevenson</li>
+                        );
+                      }
+                    }
+
+                    export default Book;
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Components in Components
+                    Back in `App.js`
+                    ```
+                    import React, { Component } from 'react';
+                    import Book from './components/Book';
+                    import './css/App.css';
+                    ```
+                    ...
+                      ```
+                      <ul>
+                        <Book />
+                        <Book />
+                        <Book />
+                      </ul>
+                      ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Questions before we [get started](#/16)?
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+              </section>
+
+              <section data-markdown>
+                <script type="text/template">
+                  ## Sprint 1
                 </script>
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  ## Sprint 0
-                  1. <span class="task-basic">Generate a React app with [create-react-app](https://github.com/facebookincubator/create-react-app).</span>
-                  1. <span class="task-basic">Initialize a git repository.
-                  1. <span class="task-basic">Edit the big title on the page and see it update in your browser.</span>
-                  1. <span class="task-basic">Create your own "Post" React component and render it.</span>
-                  1. <span class="task-basic">Make it awesome with CSS and hardcoded info.</span>
-                  1. <span class="task-advanced">Install a linter like the [airbnb eslint config](https://www.npmjs.com/package/eslint-config-airbnb) and make your code comply!</span>
-                  1. <span class="task-extra">Install [redux](http://redux.js.org/), create a Container above your "Post" component, and feed it dummy data.</span>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Sprint 0</div>
-                  Default create-react-app root component
+                  <div class="section">Sprint 1</div>
+                  ## Book Component
                   ```javascript
                   import React, { Component } from 'react';
-                  import logo from './logo.svg';
-                  import './App.css';
+                  import '../css/Book.css';
 
-                  class App extends Component {
+                  class Book extends Component {
+                    constructor(props) {
+                      super(props);
+
+                      this.state = {
+                        favorited: false,
+                      };
+                    }
+
+                    onClick = () => {
+                      this.setState({
+                        favorited: !this.state.favorited,
+                      });
+                    }
+
                     render() {
+                      const favoriteClass = this.state.favorited ? 'enabled' : '';
+
                       return (
-                        <div className="App">
-                          <div className="App-header">
-                            <img src={logo} className="App-logo" alt="logo" />
-                            <h2>Welcome to React</h2>
+                        <li
+                          className="book"
+                          onClick={this.onClick}
+                        >
+                          <div>
+                            <span className={`favorite ${favoriteClass}`} />
+                            {this.props.title}
                           </div>
-                          <p className="App-intro">
-                            To get started, edit <code>src/App.js</code> and save to reload.
-                          </p>
-                        </div>
+                          <div>
+                            {`by ${this.props.author}`}
+                          </div>
+                        </li>
                       );
                     }
                   }
 
-                  export default App;
+                  Book.propTypes = {
+                    title: React.PropTypes.string.isRequired,
+                    author: React.PropTypes.string.isRequired,
+                  };
+
+                  export default Book;
                   ```
                   <aside class="notes">
                     Note that we're using a class here instead of a function.  Both are ok!
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  ![State UI](./img/state.gif)
+                  <div class="section">Sprint 1</div>
+                  <aside class="notes">
                   </aside>
                 </script>
               </section>
