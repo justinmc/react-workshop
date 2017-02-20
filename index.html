@@ -44,193 +44,195 @@
                   - Advanced topics and how to keep learning
                 </script>
               </section>
-              <section data-markdown>
-                <script type="text/template">
-                  ## What is React?
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## Roots: Static HTML
-                  ![HTML5 Boilerplate](./img/html.png)
-                  <br />
-                  Source: [https://html5boilerplate.com/](https://html5boilerplate.com/)
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## Roots: Direct DOM Manipulation
-                  Source: [http://codepen.io/justinmc/pen/oBRKeG](http://codepen.io/justinmc/pen/oBRKeG)
-                  ```javascript
-                  <button class="adder">+1</button>
-<div class="count">0</div>
-                  ```
-                  ```javascript
-                  var adderEl = document.querySelector('.adder');
-                  var countEl = document.querySelector('.count');
+              <section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## What is React?
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## Roots: Static HTML
+                    ![HTML5 Boilerplate](./img/html.png)
+                    <br />
+                    Source: [https://html5boilerplate.com/](https://html5boilerplate.com/)
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## Roots: Direct DOM Manipulation
+                    Source: [http://codepen.io/justinmc/pen/oBRKeG](http://codepen.io/justinmc/pen/oBRKeG)
+                    ```javascript
+                    <button class="adder">+1</button>
+  <div class="count">0</div>
+                    ```
+                    ```javascript
+                    var adderEl = document.querySelector('.adder');
+                    var countEl = document.querySelector('.count');
 
-                  adderEl.addEventListener('click', function() {
-                    var currentValue = countEl.innerHTML;
-                    countEl.innerHTML = parseInt(currentValue) + 1;
-                  });
-                  ```
-                  ![Direct DOM Manipulation Example](./img/increment.gif)
-                  <aside class="notes">
-                    I was originally going to call this slide "jQuery Spaghetti".  This is great for simple interactivity, but is hard to maintain in large applications.
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## Roots: MVC
-                  ![MVC Diagram](./img/MVC-basic.svg)
-                  <aside class="notes">
-                    Keep state in javascript, mutate state, and rerender. Backbone is a great example.  Potential performance problems with totally rerendering too much.
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## Enter React
-                  <ol>
-                    <li class="fragment">Render HTML based on data.</li>
-                    <li class="fragment">Do subsequent renders incredibly quickly.</li>
-                    <li class="fragment">That's pretty much it.</li>
-                  </ol>
-                  <aside class="notes">
-                    Very minimal.  Not a full MVC setup.  Plays well with others.  Solves the performance problem of rerendering too much.
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown data-transition="none">
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## React: Data => HTML
-                  ```javascript
-                  function MyReactComponent() {
-                    const myButtonLabel = 'Click Me!';
-                    const myButtonIsDisabled = false;
+                    adderEl.addEventListener('click', function() {
+                      var currentValue = countEl.innerHTML;
+                      countEl.innerHTML = parseInt(currentValue) + 1;
+                    });
+                    ```
+                    ![Direct DOM Manipulation Example](./img/increment.gif)
+                    <aside class="notes">
+                      I was originally going to call this slide "jQuery Spaghetti".  This is great for simple interactivity, but is hard to maintain in large applications.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## Roots: MVC
+                    ![MVC Diagram](./img/MVC-basic.svg)
+                    <aside class="notes">
+                      Keep state in javascript, mutate state, and rerender. Backbone is a great example.  Potential performance problems with totally rerendering too much.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## Enter React
+                    <ol>
+                      <li class="fragment">Render HTML based on data.</li>
+                      <li class="fragment">Do subsequent renders incredibly quickly.</li>
+                      <li class="fragment">That's pretty much it.</li>
+                    </ol>
+                    <aside class="notes">
+                      Very minimal.  Not a full MVC setup.  Plays well with others.  Solves the performance problem of rerendering too much.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown data-transition="none">
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## React: Data => HTML
+                    ```javascript
+                    function MyReactComponent() {
+                      const myButtonLabel = 'Click Me!';
+                      const myButtonIsDisabled = false;
 
-                    return (
-                      <button
-                        className="pretty-button"
-                        disabled={myButtonIsDisabled}
-                      >
-                        {myButtonLabel}
-                      </button>
-                    );
-                  }
-                  ```
-                  ![React Button Component Enabled](./img/button_component_enabled.png)
-                  <aside class="notes">
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown data-transition="none">
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## React: Data => HTML
-                  ```javascript
-                  function MyReactComponent() {
-                    const myButtonLabel = 'Don\'t Click Me :(';
-                    const myButtonIsDisabled = true;
+                      return (
+                        <button
+                          className="pretty-button"
+                          disabled={myButtonIsDisabled}
+                        >
+                          {myButtonLabel}
+                        </button>
+                      );
+                    }
+                    ```
+                    ![React Button Component Enabled](./img/button_component_enabled.png)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown data-transition="none">
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## React: Data => HTML
+                    ```javascript
+                    function MyReactComponent() {
+                      const myButtonLabel = 'Don\'t Click Me :(';
+                      const myButtonIsDisabled = true;
 
-                    return (
-                      <button
-                        className="pretty-button"
-                        disabled={myButtonIsDisabled}
-                      >
-                        {myButtonLabel}
-                      </button>
+                      return (
+                        <button
+                          className="pretty-button"
+                          disabled={myButtonIsDisabled}
+                        >
+                          {myButtonLabel}
+                        </button>
+                      );
+                    }
+                    ```
+                    ![React Button Component Enabled](./img/button_component_disabled.png)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## Wait but how are you writing HTML in your JS?
+                    <ul>
+                      <li class="fragment">It's called JSX!</li>
+                      <li class="fragment">It's a preprocessing language that gets compiled to plain old javascript.</li>
+                    </ul>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## JSX
+                    ```javascript
+                      return (
+                        <p className="prose">Lorem Ipsum</p>
+                      );
+                    ```
+                    =>
+                    ```javascript
+                    return React.createElement(
+                      "p",
+                      { className: "prose" },
+                      "Lorem Ipsum"
                     );
-                  }
-                  ```
-                  ![React Button Component Enabled](./img/button_component_disabled.png)
-                  <aside class="notes">
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## Wait but how are you writing HTML in your JS?
-                  <ul>
-                    <li class="fragment">It's called JSX!</li>
-                    <li class="fragment">It's a preprocessing language that gets compiled to plain old javascript.</li>
-                  </ul>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## JSX
-                  ```javascript
-                    return (
-                      <p className="prose">Lorem Ipsum</p>
-                    );
-                  ```
-                  =>
-                  ```javascript
-                  return React.createElement(
-                    "p",
-                    { className: "prose" },
-                    "Lorem Ipsum"
-                  );
-                  ```
-                  If you want to play around with compiling to JSX, try [Babel's repl](https://babeljs.io/repl) (don't forget to turn on the "react" preset).
-                  <aside class="notes">
-                    Very similar to document.createElement!  We're going to use jsx in this workshop because it is very prevalent.
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## You said React was fast?
-                  <ul>
-                    <li class="fragment">React isn't just reinserting a whole new element each time something changes.</li>
-                    <li class="fragment">It's doing DOM DIFFING!</li>
-                    <li class="fragment">On a rerender, compares the current state of the DOM to the new state, then makes minimum number of operations needed to transition to the new state.</li>
-                  </ul>
-                  <aside class="notes">
-                    From what we've seen so far, you could imagine writing a library to insert these components into the dom yourself in a few hundred lines.  There are some libraries that do this!  Actually not bad performance in most cases.
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  <div class="section">Introduction: What is React?</div>
-                  ## One more performance buzz word for you
-                  <ul>
-                    <li class="fragment">React doesn't actually look at the actual DOM to make it's comparison.  It looks at the VIRTUAL DOM.</li>
-                    <li class="fragment">The virtual DOM is React's own internal representation of the DOM designed to be super quick to inspect and make operations on.</li>
-                    <li class="fragment">Why does React go through all this trouble to avoid working with the DOM?  Because the DOM is a slow legacy dinosaur.</li>
-                  </ul>
-                  <aside class="notes">
-                    Not to be confused with the Shadow DOM.
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  ## Ok you guys pretty much know React now, let's build something.
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  ## Tips!
-                  - Whenever you finish a task, commit!
-                    - That way, if we have to move on while you're still working, you can stash and get back to a working state.
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  ## The Sprints
-                </script>
+                    ```
+                    If you want to play around with compiling to JSX, try [Babel's repl](https://babeljs.io/repl) (don't forget to turn on the "react" preset).
+                    <aside class="notes">
+                      Very similar to document.createElement!  We're going to use jsx in this workshop because it is very prevalent.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## You said React was fast?
+                    <ul>
+                      <li class="fragment">React isn't just reinserting a whole new element each time something changes.</li>
+                      <li class="fragment">It's doing DOM DIFFING!</li>
+                      <li class="fragment">On a rerender, compares the current state of the DOM to the new state, then makes minimum number of operations needed to transition to the new state.</li>
+                    </ul>
+                    <aside class="notes">
+                      From what we've seen so far, you could imagine writing a library to insert these components into the dom yourself in a few hundred lines.  There are some libraries that do this!  Actually not bad performance in most cases.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Introduction: What is React?</div>
+                    ## One more performance buzz word for you
+                    <ul>
+                      <li class="fragment">React doesn't actually look at the actual DOM to make it's comparison.  It looks at the VIRTUAL DOM.</li>
+                      <li class="fragment">The virtual DOM is React's own internal representation of the DOM designed to be super quick to inspect and make operations on.</li>
+                      <li class="fragment">Why does React go through all this trouble to avoid working with the DOM?  Because the DOM is a slow legacy dinosaur.</li>
+                    </ul>
+                    <aside class="notes">
+                      Not to be confused with the Shadow DOM.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Ok you guys pretty much know React now, let's build something.
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Tips!
+                    - Whenever you finish a task, commit!
+                      - That way, if we have to move on while you're still working, you can stash and get back to a working state.
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## [The Sprints](#/3)
+                  </script>
+                </section>
               </section>
               <section>
                 <section data-markdown>
@@ -404,79 +406,165 @@
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 0</div>
-                    ## Questions before we [get started](#/16)?
+                    ## Questions before we [get started](#/3)?
                     <aside class="notes">
                     </aside>
                   </script>
                 </section>
               </section>
+              <section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Sprint 1
+                    1. <span class="task-basic"></span>
+                    1. <span class="task-advanced"></span>
+                    1. <span class="task-extra"></span>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Book Component
+                    ```javascript
+                    import React, { Component } from 'react';
+                    import '../css/Book.css';
 
-              <section data-markdown>
-                <script type="text/template">
-                  ## Sprint 1
-                </script>
+                    class Book extends Component {
+                      constructor(props) {
+                        super(props);
+
+                        this.state = {
+                          favorited: false,
+                        };
+                      }
+
+                      onClick = () => {
+                        this.setState({
+                          favorited: !this.state.favorited,
+                        });
+                      }
+
+                      render() {
+                        const favoriteClass = this.state.favorited ? 'enabled' : '';
+
+                        return (
+                          <li
+                            className="book"
+                            onClick={this.onClick}
+                          >
+                            <div>
+                              <span className={`favorite ${favoriteClass}`} />
+                              {this.props.title}
+                            </div>
+                            <div>
+                              {`by ${this.props.author}`}
+                            </div>
+                          </li>
+                        );
+                      }
+                    }
+
+                    Book.propTypes = {
+                      title: React.PropTypes.string.isRequired,
+                      author: React.PropTypes.string.isRequired,
+                    };
+
+                    export default Book;
+                    ```
+                    <aside class="notes">
+                      Note that we're using a class here instead of a function.  Both are ok!
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ![State UI](./img/state.gif)
+                    <div class="section">Sprint 1</div>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Questions before we [get started](#/4)?
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+              </section>
+              <section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Sprint 2
+                    1. <span class="task-basic"></span>
+                    1. <span class="task-advanced"></span>
+                    1. <span class="task-extra"></span>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Questions before we [get started](#/5)?
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+              </section>
+              <section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Sprint 3
+                    1. <span class="task-basic"></span>
+                    1. <span class="task-advanced"></span>
+                    1. <span class="task-extra"></span>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Questions before we [get started](#/6)?
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+              </section>
+              <section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Sprint 4
+                    1. <span class="task-basic"></span>
+                    1. <span class="task-advanced"></span>
+                    1. <span class="task-extra"></span>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Questions before we [get started](#/7)?
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+              </section>
+              <section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## From Here
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## [Back to the top](#/8)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  <div class="section">Sprint 1</div>
-                  ## Book Component
-                  ```javascript
-                  import React, { Component } from 'react';
-                  import '../css/Book.css';
-
-                  class Book extends Component {
-                    constructor(props) {
-                      super(props);
-
-                      this.state = {
-                        favorited: false,
-                      };
-                    }
-
-                    onClick = () => {
-                      this.setState({
-                        favorited: !this.state.favorited,
-                      });
-                    }
-
-                    render() {
-                      const favoriteClass = this.state.favorited ? 'enabled' : '';
-
-                      return (
-                        <li
-                          className="book"
-                          onClick={this.onClick}
-                        >
-                          <div>
-                            <span className={`favorite ${favoriteClass}`} />
-                            {this.props.title}
-                          </div>
-                          <div>
-                            {`by ${this.props.author}`}
-                          </div>
-                        </li>
-                      );
-                    }
-                  }
-
-                  Book.propTypes = {
-                    title: React.PropTypes.string.isRequired,
-                    author: React.PropTypes.string.isRequired,
-                  };
-
-                  export default Book;
-                  ```
-                  <aside class="notes">
-                    Note that we're using a class here instead of a function.  Both are ok!
-                  </aside>
-                </script>
-              </section>
-              <section data-markdown>
-                <script type="text/template">
-                  ![State UI](./img/state.gif)
-                  <div class="section">Sprint 1</div>
-                  <aside class="notes">
-                  </aside>
+                  ## Thanks!
                 </script>
               </section>
 			</div>
