@@ -1,5 +1,22 @@
 .section {
   position: absolute;
   top: 0;
-  left: 0;
+  right: 0;
+  font-size: 1rem !important;
+  font-style: italic !important;
+}
+
+.task-basic::before {
+  content: "[Basic] ";
+  color: green;
+}
+
+.task-advanced::before {
+  content: "[Advanced] ";
+  color: goldenrod;
+}
+
+.task-extra::before {
+  content: "[Extra] ";
+  color: crimson;
 }

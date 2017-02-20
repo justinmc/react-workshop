@@ -51,7 +51,7 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  <div class="section">What is React?</div>
+                  <div class="section">Introduction: What is React?</div>
                   ## Roots: Static HTML
                   ![HTML5 Boilerplate](./img/html.png)
                   <br />
@@ -60,7 +60,7 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  <div class="section">What is React?</div>
+                  <div class="section">Introduction: What is React?</div>
                   ## Roots: Direct DOM Manipulation
                   Source: [http://codepen.io/justinmc/pen/oBRKeG](http://codepen.io/justinmc/pen/oBRKeG)
                   ```javascript
@@ -84,7 +84,7 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  <div class="section">What is React?</div>
+                  <div class="section">Introduction: What is React?</div>
                   ## Roots: MVC
                   ![MVC Diagram](./img/MVC-basic.svg)
                   <aside class="notes">
@@ -94,7 +94,7 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  <div class="section">What is React?</div>
+                  <div class="section">Introduction: What is React?</div>
                   ## Enter React
                   <ol>
                     <li class="fragment">Render HTML based on data.</li>
@@ -108,7 +108,7 @@
               </section>
               <section data-markdown data-transition="none">
                 <script type="text/template">
-                  <div class="section">What is React?</div>
+                  <div class="section">Introduction: What is React?</div>
                   ## React: Data => HTML
                   ```javascript
                   function MyReactComponent() {
@@ -132,7 +132,7 @@
               </section>
               <section data-markdown data-transition="none">
                 <script type="text/template">
-                  <div class="section">What is React?</div>
+                  <div class="section">Introduction: What is React?</div>
                   ## React: Data => HTML
                   ```javascript
                   function MyReactComponent() {
@@ -156,6 +156,7 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
+                  <div class="section">Introduction: What is React?</div>
                   ## Wait but how are you writing HTML in your JS?
                   <ul>
                     <li class="fragment">It's called JSX!</li>
@@ -165,6 +166,7 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
+                  <div class="section">Introduction: What is React?</div>
                   ## JSX
                   ```javascript
                     return (
@@ -187,6 +189,39 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
+                  <div class="section">Introduction: What is React?</div>
+                  ## You said React was fast?
+                  <ul>
+                    <li class="fragment">React isn't just reinserting a whole new element each time something changes.</li>
+                    <li class="fragment">It's doing DOM DIFFING!</li>
+                    <li class="fragment">On a rerender, compares the current state of the DOM to the new state, then makes minimum number of operations needed to transition to the new state.</li>
+                  </ul>
+                  <aside class="notes">
+                    From what we've seen so far, you could imagine writing a library to insert these components into the dom yourself in a few hundred lines.  There are some libraries that do this!  Actually not bad performance in most cases.
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  <div class="section">Introduction: What is React?</div>
+                  ## One more performance buzz word for you
+                  <ul>
+                    <li class="fragment">React doesn't actually look at the actual DOM to make it's comparison.  It looks at the VIRTUAL DOM.</li>
+                    <li class="fragment">The virtual DOM is React's own internal representation of the DOM designed to be super quick to inspect and make operations on.</li>
+                    <li class="fragment">Why does React go through all this trouble to avoid working with the DOM?  Because the DOM is a slow legacy dinosaur.</li>
+                  </ul>
+                  <aside class="notes">
+                    Not to be confused with the Shadow DOM.
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  ## Ok you guys pretty much know React now, let's build something.
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
                   ## Tips!
                   - Whenever you finish a task, commit!
                     - That way, if we have to move on while you're still working, you can stash and get back to a working state.
@@ -199,21 +234,46 @@
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  ```
-                  console.log('omg code.');
-                  ```
+                  ## Sprint 0
+                  1. <span class="task-basic">Generate a React app with [create-react-app](https://github.com/facebookincubator/create-react-app).</span>
+                  1. <span class="task-basic">Initialize a git repository.
+                  1. <span class="task-basic">Edit the big title on the page and see it update in your browser.</span>
+                  1. <span class="task-basic">Create your own "Post" React component and render it.</span>
+                  1. <span class="task-basic">Make it awesome with CSS and hardcoded info.</span>
+                  1. <span class="task-advanced">Install a linter like the [airbnb eslint config](https://www.npmjs.com/package/eslint-config-airbnb) and make your code comply!</span>
+                  1. <span class="task-extra">Install [redux](http://redux.js.org/), create a Container above your "Post" component, and feed it dummy data.</span>
                 </script>
               </section>
               <section data-markdown>
                 <script type="text/template">
-                  ## Sprint 0
-                  1. [Basic] Generate a React app with [create-react-app](https://github.com/facebookincubator/create-react-app).
-                  1. [Basic] Initialize a git repository.
-                  1. [Basic] Edit the big title on the page and see it update in your browser.
-                  1. [Basic] Create your own "Post" React component and render it.
-                  1. [Basic] Make it awesome with CSS and hardcoded info.
-                  1. [Advanced] Install a linter like the [airbnb eslint config](https://www.npmjs.com/package/eslint-config-airbnb) and make your code comply!
-                  1. [Extra] Install [redux](http://redux.js.org/), create a Container above your "Post" component, and feed it dummy data.
+                  <div class="section">Sprint 0</div>
+                  Default create-react-app root component
+                  ```javascript
+                  import React, { Component } from 'react';
+                  import logo from './logo.svg';
+                  import './App.css';
+
+                  class App extends Component {
+                    render() {
+                      return (
+                        <div className="App">
+                          <div className="App-header">
+                            <img src={logo} className="App-logo" alt="logo" />
+                            <h2>Welcome to React</h2>
+                          </div>
+                          <p className="App-intro">
+                            To get started, edit <code>src/App.js</code> and save to reload.
+                          </p>
+                        </div>
+                      );
+                    }
+                  }
+
+                  export default App;
+                  ```
+                  <aside class="notes">
+                    Note that we're using a class here instead of a function.  Both are ok!
+                  </aside>
                 </script>
               </section>
 			</div>
