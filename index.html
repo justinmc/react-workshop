@@ -685,16 +685,425 @@
                 <section data-markdown>
                   <script type="text/template">
                     ## Sprint 2
-                    1. <span class="task-basic">Build a controlled text input with state</span>
-                    1. <span class="task-basic"></span>
-                    1. <span class="task-advanced"></span>
-                    1. <span class="task-extra"></span>
+                    1. <span class="task-basic">Render an array of data by looping over it.</span>
+                    1. <span class="task-basic">Build a controlled text input with state.</span>
+                    1. <span class="task-advanced">Add validation to your form input.</span>
+                    1. <span class="task-advanced">Add a few different types of form elements (radio buttons, checkboxes, dropdowns, etc.) and map their values to state.</span>
+                    1. <span class="task-advanced">Try building an uncontrolled input.</span>
+                    1. <span class="task-advanced">Play around with [refs](https://facebook.github.io/react/docs/refs-and-the-dom.html) for more direct DOM access.</span>
+                    1. <span class="task-extra">Update your Flux/Redux store on form submission.</span>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 2</div>
-                    ## Questions before we [get started](#/5)?
+                    ## Looping in JSX
+                    - JSX is capable of rendering arrays of elements too!
+                    - Just make sure each element has a unique `key` attribute.
+                    <div class="fragment">
+                      ```javascript
+                        <ol>
+                          {
+                            ['a', 'b', 'c'].map((element) => (
+                              <li key={element}>{element}</li>
+                            ))
+                          }
+                        </ol>
+                      ```
+                    </div>
+                    <div class="fragment">
+                      ![Render of loop code](./img/list_loop.png)
+                    </div>
+                    <aside class="notes">
+                      React uses the `key` attribute to uniquely identify elements in order to do the most efficient DOM manipulations when your data changes.  If you forget it, React will log a warning.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Books from an array
+                    - Get our books into `state` as an array.
+                    ```javascript
+                      constructor(props) {
+                        super(props);
+
+                        this.state = {
+                          books: [
+                            { title: 'Treasure Island', author: 'Robert Louis Stevenson' },
+                            { title: 'Go Dog Go', author: 'Dr. Seuss' },
+                          ],
+                        };
+                      }
+                    ```
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## Books from an array
+                    - Render a `Book` component for each book in the array.
+                    ```
+                      <ul>
+                        {
+                          this.state.books.map(book =>
+                            <Book
+                              key={book.title}
+                              title={book.title}
+                              author={book.author}
+                            />
+                          )
+                        }
+                      </ul>
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Inputs
+                    What does this render? (in a jsx React component)
+                    ```javascript
+                      <input type="text" value="words go here" />
+                    ```
+                    <div class="fragment">
+                      ![Input with value set to string](./img/input_with_value.png)
+                    </div>
+                    <aside class="notes">
+                      And what happens if the user tries to change the input?  Nothing!  It won't change.  React will rerender it immediately.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Inputs
+                    What is the value of `event.target.value`?
+                    ```javascript
+                      onChangeInput = (event) => {
+                        console.log(event.target.value);
+                      }
+
+                      ...
+
+                      <input
+                        type="text"
+                        value="words go here"
+                        onChange={this.onChangeInput} />
+                    ```
+                    <div class="fragment">
+                      Answer: The value that the user updated the input to (after first keystroke)
+                    </div>
+                    <aside class="notes">
+                      Note the class property syntax used to avoid needing to `.bind`.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## [Controlled Inputs](https://facebook.github.io/react/docs/forms.html)
+                    ```javascript
+                      constructor(props) {
+                        super(props);
+
+                        this.state = {
+                          inputValue: 'words go here',
+                        };
+                      }
+
+                      onChangeInput = (event) => {
+                        this.setState({
+                          inputValue: event.target.default,
+                        });
+                      }
+
+                      ...
+
+                      <input
+                        type="text"
+                        value={this.state.inputValue}
+                        onChange={this.onChangeInput} />
+                    ```
+                    <div class="fragment">
+                      Answer: The value that the user updated the input to (after first keystroke)
+                    </div>
+                    <aside class="notes">
+                      Note the class property syntax used to avoid needing to `.bind`.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## That was a lot of typing...
+                    - React is verbose, but for complex apps, the architectural benefits are worth it.
+                    - As forms get more complicated it's nice to have input values match variables.
+                    - If you're sure you don't need a full controlled input, you can always just grab values from the html element. See [uncontrolled inputs](https://facebook.github.io/react/docs/uncontrolled-components.html) in the docs.
+                    <aside class="notes">
+                      - React/Flux/Redux do not try to eliminate boilerplate, they show you everything.
+                      - More complicated forms might feature: validation, asynchronous submission
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    Let's create a form to add new books to the list.
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    ![Add Component Working](./img/add.gif)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    First, we need a way to add books to our `state.books` array in App.js.
+                    <div class="fragment">
+                      ```javascript
+                        onAddBook = (book) => {
+                          // Notice I'm not just pushing to this.state.books
+                          this.setState({
+                            books: this.state.books.concat([book]),
+                          });
+                        }
+                      ```
+                    </div>
+                    <aside class="notes">
+                      You have to notify React when you mutate state. To enforce this, the [immutablejs](https://facebook.github.io/immutable-js/docs) library is popularly used.
+                      You might start to see the benefit in declaring your UI based on state so verbosely now.  Very easy to add an item to the books array and have it render updated.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    Now let's create a new component that contains an "add book" form and uses this method.
+                    ```javascript
+                      <Add onAdd={this.onAddBook} />
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    Let's write Add.js.
+                    ```javascript
+                      class Add extends Component {
+                        constructor(props) {
+                          super(props);
+
+                          this.state = {
+                          };
+                        }
+
+                        render() {
+                          return (
+                            <form className="add">
+                            </form>
+                          );
+                        }
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    Fill out the form.
+                    ```javascript
+                      <form className="add" onSubmit={this.onSubmit}>
+                        <input
+                          type="text"
+                          placeholder="Title"
+                          value={this.state.title}
+                          onChange={this.onChangeTitle}
+                        />
+                        <input
+                          type="text"
+                          placeholder="Author"
+                          value={this.state.author}
+                          onChange={this.onChangeAuthor}
+                        />
+                        <input
+                          type="submit"
+                          value="submit"
+                        />
+                      </form>
+                    ```
+                    <aside class="notes">
+                      The use of a form element with an `onSubmit` just takes advantage of the browser a bit (pressing the Enter key in an input will submit the form).
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    Set a prop type for the `onAdd` function we receive, and set the initial state.
+                    ```javascript
+                      static propTypes = {
+                        onAdd: React.PropTypes.func.isRequired,
+                      }
+
+                      constructor(props) {
+                        super(props);
+
+                        // Initially, the title and author inputs should be empty
+                        this.state = {
+                          title: '',
+                          author: '',
+                        };
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    Update the state when form inputs change.
+                    ```javascript
+                      onChangeTitle = (e) => {
+                        this.setState({
+                          title: e.target.value,
+                        });
+                      }
+
+                      onChangeAuthor = (e) => {
+                        this.setState({
+                          author: e.target.value,
+                        });
+                      }
+                    ```
+                    <aside class="notes">
+                      Does this look repetetive?  You can totally use `target.name` to write a generic handler for both.  See the [React Form docs](https://facebook.github.io/react/docs/forms.html).
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    And submit it all.
+                    ```javascript
+                      onSubmit = (e) => {
+                        // Prevent the form from trying to refresh the page
+                        e.preventDefault();
+
+                        // Call onAdd up above in App.js
+                        this.props.onAdd({ title: this.state.title, author: this.state.author });
+
+                        // Clear the inputs back to their defaults
+                        this.setState({
+                          title: '',
+                          author: '',
+                        });
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Dynamic Books
+                    The complete Add.js component:
+                    ```javascript
+                      import React, { Component } from 'react';
+
+                      class Add extends Component {
+                        static propTypes = {
+                          onAdd: React.PropTypes.func.isRequired,
+                        }
+
+                        constructor(props) {
+                          super(props);
+
+                          this.state = {
+                            title: '',
+                            author: '',
+                          };
+                        }
+
+                        onChangeTitle = (e) => {
+                          this.setState({
+                            title: e.target.value,
+                          });
+                        }
+
+                        onChangeAuthor = (e) => {
+                          this.setState({
+                            author: e.target.value,
+                          });
+                        }
+
+                        onSubmit = (e) => {
+                          e.preventDefault();
+                          this.props.onAdd({ title: this.state.title, author: this.state.author });
+
+                          this.setState({
+                            title: '',
+                            author: '',
+                          });
+                        }
+
+                        render() {
+                          return (
+                            <form className="Add" onSubmit={this.onSubmit}>
+                              <input
+                                type="text"
+                                placeholder="Title"
+                                value={this.state.title}
+                                onChange={this.onChangeTitle}
+                              />
+                              <input
+                                type="text"
+                                placeholder="Author"
+                                value={this.state.author}
+                                onChange={this.onChangeAuthor}
+                              />
+                              <input
+                                type="submit"
+                                value="submit"
+                              />
+                            </form>
+                          );
+                        }
+                      }
+
+                      export default Add;
+                    ```
+                    <aside class="notes">
+                      We modify the state data, and React updates the UI to reflect that.  Super powerful and simple to understand.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Questions before we [get started](#/6)?
                     <aside class="notes">
                     </aside>
                   </script>
