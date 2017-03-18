@@ -48,9 +48,9 @@
                   - What is React?
                   - Sprint 0: Creating a static app
                   - Sprint 1: Dynamic state and props
-                  - Sprint 2: Component lifecycle and complex interactions
-                  - Sprint 3: Asynchronous data (integrating an API)
-                  - Sprint 4: Architecture
+                  - Sprint 2: Forms and mutating state
+                  - Sprint 3: Component lifecycle and complex interactions
+                  - Sprint 4: Asynchronous data (integrating an API)
                   - Advanced topics and how to keep learning
                 </script>
               </section>
@@ -724,6 +724,7 @@
                     <div class="section">Sprint 2</div>
                     ## Books from an array
                     - Get our books into `state` as an array.
+
                     ```javascript
                       constructor(props) {
                         super(props);
@@ -742,6 +743,7 @@
                   <script type="text/template">
                     ## Books from an array
                     - Render a `Book` component for each book in the array.
+
                     ```
                       <ul>
                         {
@@ -1112,16 +1114,393 @@
               <section>
                 <section data-markdown>
                   <script type="text/template">
-                    ## Sprint 3
-                    1. <span class="task-basic"></span>
-                    1. <span class="task-advanced"></span>
-                    1. <span class="task-extra"></span>
+                    ## [Sprint 3](https://github.com/justinmc/react-workshop-app/blob/sprint3)
+                    1. <span class="task-basic">Tie your app into an API</span>
+                    1. <span class="task-basic">Create a loading state for your form</span>
+                    1. <span class="task-basic">Create an error state for your form</span>
+                    1. <span class="task-advanced">Try calling an API on input change and on submit</span>
+                    1. <span class="task-extra">Put API calls in actions</span>
+                    1. <span class="task-extra">Dispatch events before and after receiving reply</span>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 3</div>
-                    ## Questions before we [get started](#/6)?
+                    ## Using an API
+                    - What if a user could search for a book and have the details autofilled?
+                    ![UI with API integrated](./img/api.gif)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API
+                    ![UI with API integrated](./img/api.gif)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Setup
+                    <ul>
+                      <li class="fragment">I'll be using the [Google Books API](https://developers.google.com/books/docs/v1/using), which is a public API that requires an API key.</li>
+                      <li class="fragment">A common pattern is to include a `.env` file not checked in to your repository to contain things like API keys.</li>
+                      <li class="fragment">The [dotenv](https://www.npmjs.com/package/dotenv) pacakge is great for this.</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Setup 2
+                    <ul>
+                      <li class="fragment">I'm going to use the [axios](https://www.npmjs.com/package/axios) package to make my network requests.</li>
+                      <li class="fragment">There are plenty of other options for this including native XHR/fetch, and all work fine with React.</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API
+                    - Let's start by writing a function to fetch a book from the API
+
+                    ```javascript
+                      import axios from 'axios';
+                      import querystring from 'querystring';
+
+                      const apiUtils = {
+                        /**
+                         * Search for a book by title and/or author in the Google Books api
+                         * @param {String} title
+                         * @param {String} author
+                         * @returns {Promise}
+                         */
+                        findBook(title, author) {
+                          const queryTitle = title ? `intitle:${title}` : '';
+                          const queryAuthor = author ? `inauthor:${author}` : '';
+                          const queryConnector = queryTitle && queryAuthor ? '+' : '';
+                          const queryParams = querystring.stringify({
+                            key: process.env.REACT_APP_GOOGLE_BOOKS_API_KEY,
+                            q: `${queryTitle}${queryConnector}${queryAuthor}`,
+                          });
+
+                          return axios.get(
+                            `https://www.googleapis.com/books/v1/volumes?${queryParams}`,
+                          ).then((res) => {
+                            const bookDatas = res.data.items || [];
+
+                            if (!bookDatas.length) {
+                              throw new Error('Book not found');
+                            }
+
+                            // Let's just take the first result and hope it's ok :)
+                            const bookData = bookDatas[0];
+
+                            // Some basic validation
+                            if (!bookData.volumeInfo.title) {
+                              throw new Error('Invalid title data, try another book.');
+                            }
+                            if (!bookData.volumeInfo.authors || !bookData.volumeInfo.authors.length) {
+                              throw new Error('Invalid author data, try another book.');
+                            }
+
+                            // Add description and fill in typed data with fetched data
+                            return {
+                              title: bookData.volumeInfo.title,
+                              // I added a description to the books to show off :)
+                              description: bookData.volumeInfo.description,
+                              author: bookData.volumeInfo.authors[0],
+                            };
+                          });
+                        },
+                      };
+
+                      export default apiUtils;
+                    ```
+                    <aside class="notes">
+                      - Pardon all the Google Books api finagling that's irrelevant to React.
+                      - Takes title/author, returns a promise that resolves with a book.  Simple.
+                      - axios is promise based, note the then/catch and error throwing.
+                      - Why write a separate method in a separate file?  Very compartmentalized, testable logic here.  And I think it's nice to have all network access in one place.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API
+                    - Now we'll use `findBook` in our Add.js component
+
+                    ```javascript
+                      onSubmit = (e) => {
+                        e.preventDefault();
+
+                        // Look up the book
+                        apiUtils.findBook(this.state.title, this.state.author).then((fetchedBook) => {
+                          this.props.onAdd(fetchedBook);
+
+                          this.setState({
+                            title: '',
+                            author: '',
+                          });
+                        }).catch(console.error.bind(console));
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API
+                    - Works!  [Code so far](https://github.com/justinmc/react-workshop-app/commit/9ec119ad3d60f3e26761fdacfebb0123537abd76)
+                    ![The app works up to this point](./img/api_naive.gif)
+                    <aside class="notes">
+					  - Note that we didn't have to modify App.js at all!  Well encapsulated in Add.js.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Edge Cases
+                    <ul>
+                      <li>Before we #shipit, there are two more states I always handle:</li>
+                      <li class="fragment">1. Loading state</li>
+                      <li class="fragment">2. Error state</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Loading State
+                    - We're going to add a new boolean piece of `state` that tells us if our Add component is currently loading or not.
+                    ```javascript
+                      this.state = {
+                        author: '',
+                        title: '',
+                        loading: false,
+                      };
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Loading State
+                    - And we're going to change the UI based on it.
+                    - In my lazy case, we'll just disable the Add form inputs.
+                    ```javascript
+                      disabled={this.state.loading}
+                    ```
+                    ![Disabled inputs](./img/disabled_inputs.png)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Loading State
+                    - We want our UI to be disabled when loading and always be enabled otherwise.
+                    - Where do we need to modify the loading state?
+
+                    ```javascript
+                      onSubmit = (e) => {
+                        e.preventDefault();
+
+                        // Look up the book
+                        apiUtils.findBook(this.state.title, this.state.author).then((fetchedBook) => {
+                          this.props.onAdd(fetchedBook);
+
+                          this.setState({
+                            title: '',
+                            author: '',
+                          });
+                        }).catch(console.error.bind(console));
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Loading State
+                    ```javascript
+                      onSubmit = (e) => {
+                        e.preventDefault();
+
+                        // Turn on loading before we make the call
+                        this.setState({
+                          loading: true,
+                        });
+
+                        apiUtils.findBook(this.state.title, this.state.author).then((fetchedBook) => {
+                          this.props.onAdd(fetchedBook);
+
+                          // Turn off loading when the call finishes successfully
+                          this.setState({
+                            title: '',
+                            author: '',
+                            loading: false,
+                          });
+                        }).catch(() => {
+                          // Also turn off loading when the call fails
+                          this.setState({
+                            loading: false,
+                          });
+                        });
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Loading State
+                    - [Code up to loading state working](https://github.com/justinmc/react-workshop-app/commit/9ec119ad3d60f3e26761fdacfebb0123537abd76)
+                    ![Loading state](./img/api_loading.gif)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Error State
+                    - Now let's add a string to hold any current error message.
+                    ```javascript
+                      this.state = {
+                        author: '',
+                        title: '',
+                        loading: false,
+                        error: '', // Empty string means no error
+                      };
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Error State
+                    - We'll also add a div to hold the error message
+                    ```javascript
+                      <div className="error">
+                        {this.state.error}
+                      </div>
+                    ```
+                    ![Error message](./img/error_message.png)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Error State
+                    - We want to give the user a good idea whether their input is valid or not.
+                    - Where should we set the error message?
+
+                    ```javascript
+                      onSubmit = (e) => {
+                        e.preventDefault();
+
+                        // Look up the book
+                        apiUtils.findBook(this.state.title, this.state.author).then((fetchedBook) => {
+                          this.props.onAdd(fetchedBook);
+
+                          this.setState({
+                            title: '',
+                            author: '',
+                          });
+                        }).catch(console.error.bind(console));
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Error State
+                    ```javascript
+                      onSubmit = (e) => {
+                        e.preventDefault();
+
+                        this.setState({
+                          loading: true,
+                          error: '', // Hide the error message during loading
+                        });
+
+                        apiUtils.findBook(this.state.title, this.state.author).then((fetchedBook) => {
+                          this.props.onAdd(fetchedBook);
+
+                          this.setState({
+                            title: '',
+                            author: '',
+                            loading: false,
+                            // We actually shouldn't need to clear error here!
+                          });
+                        }).catch((error) => {
+                          this.setState({
+                            loading: false,
+                            error: error.message, // Show the error message on error
+                          });
+                        });
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Using an API - Error State
+                    - [Full sprint3 API code](https://github.com/justinmc/react-workshop-app/tree/sprint3)
+                    ![Full api flow](./img/api.gif)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Async Tasks React Review
+                    - Many of you have probably implemented a flow like this plenty of times before.
+                    - How does it feel to do it in React?
+                    - React can be verbose, but you should be confident that there are no edge cases that the app will get in that you haven't considered.
+                    <aside class="notes">
+                      - As opposed to directly changing the UI when the user does something, or opposed to bi-directional data binding.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 3</div>
+                    ## Questions before we [get started](#/7)?
                     <aside class="notes">
                     </aside>
                   </script>
