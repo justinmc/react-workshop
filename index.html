@@ -1511,10 +1511,9 @@
                   <script type="text/template">
                     ## [Sprint 4](https://github.com/justinmc/react-workshop-app/tree/sprint4)
                     1. <span class="task-basic">Introduce a tight performance requirement</span>
-                    1. <span class="task-basic">Introduce complicated data dependencies</span>
-                    1. <span class="task-advanced">Keep store data and mutations totally independent</span>
+                    1. <span class="task-basic">Add multiple components that used the same state with derived data</span>
                     1. <span class="task-advanced">Use immutable data to increase performance and reliability</span>
-                    1. <span class="task-extra">Know what to do when React is not the best tool for the job</span>
+                    1. <span class="task-advanced">Use Flux/Redux to keep store data and mutations totally independent</span>
                   </script>
                 </section>
                 <section data-markdown>
@@ -1721,7 +1720,225 @@
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 4</div>
-                    ## Questions before we [get started](#/7)?
+                    ## Architecture
+                    Say I want to add the following:
+                    1. A checkbox that filters the list to show only favorited books
+                    1. A count of the total number of favorited books
+
+                    ![Favorites toggle screenshot](./img/favorites_filter.png)
+
+                    What could the new state look like?
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    ![Favorites toggle screenshot](./img/favorites_filter.png)
+                    ```javascript
+                      render() {
+                        return (
+                          <div className="favorites-filter">
+                            <label htmlFor="favorites-only">
+                              Favorites Only ({this.props.count})
+                            </label>
+                            <input
+                              id="favorites-only"
+                              onChange={this.onChange}
+                              type="checkbox"
+                              value={this.props.favoritesFilterOn}
+                            />
+                          </div>
+                        );
+                      }
+                    ```
+                    <aside class="notes">
+                      Three pieces of state needed: count, favoritesFilterOn, and onToggleFavoritesFilter.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    ```javascript
+                        onChange = () => {
+                          this.props.onChange(!this.props.favoritesFilterOn);
+                        }
+                    ```
+                    <aside class="notes">
+                      FavoriteFilter.js method called when ticking the checkbox.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    - But the favorite status is stuck inside Book.js!
+                    ```javascript
+                    class Book extends Component {
+                      ...
+                      constructor(props) {
+                        super(props);
+
+                        this.state = {
+                          favorited: false,
+                        };
+                      }
+
+                      onClickFavorite = () => {
+                        this.setState({
+                          favorited: !this.state.favorited,
+                        });
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    - Only Book.js knows whether a book is favorited, because favorite status is only used to fill the red dot.
+                    - For this feature, we'll need to lift this piece of state up out of Book.js so it can be used elsewhere.
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    - Let's add a `favorited` property to each book object and default it to false
+                    ```javascript
+                      favorited: false,
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    - Book.js will have to call App.js to handle toggling the favorite button now:
+
+                    ![Favorite toggling animation](./img/favorite_toggle.gif)
+
+                    ```javascript
+                      onClickFavorite = () => {
+                        this.props.onToggleFavorite(this.props.title);
+                      }
+                    ```
+                    <aside class="notes">
+                      We are uniquely identifying books with their title now.  In a real app, it's probably more robust to generate a random id instead!
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    ```javascript
+                      onToggleBookFavorite = (title) => {
+                        // Copy books because this is a pure component
+                        const updatedBooks = new Array(...this.state.books);
+
+                        const index = updatedBooks.findIndex(book =>
+                          book.title === title,
+                        );
+
+                        // Also have to copy the book itself
+                        updatedBooks[index] = Object.assign({}, updatedBooks[index], {
+                          favorited: !updatedBooks[index].favorited,
+                        });
+
+                        this.setState({
+                          books: updatedBooks,
+                        });
+                      }
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    Let's filter the books when we render if needed.
+                    ```javascript
+                    render() {
+                      let displayBooks;
+                      const favoritedBooks = this.state.books.filter(book => book.favorited);
+
+                      if (this.state.favoritesFilterOn) {
+                        displayBooks = favoritedBooks;
+                      } else {
+                        displayBooks = this.state.books;
+                      }
+
+                      ...
+
+                        displayBooks.map(book =>
+                          <Book
+                      ...
+                    ```
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    That's it!  The list of books to display is recomputed on each render based on the selected filter and the favorite status of each book.
+
+                    ![Favorite filtering animation](./img/favorite_filter_no_count.gif)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    - The count is dead simple now that we have `favoritedBooks`:
+                    ```javascript
+                      <FavoritesFilter
+                        count={favoritedBooks.length}
+                        favoritesFilterOn={this.state.favoritesFilterOn}
+                        onChange={this.onChangeFilter}
+                      />
+                    ```
+
+                    ![Favorite count animation](./img/favorite_count.gif)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Favorites
+                    Best Practices:
+                    1. Raise state up to the nearest common component when state is needed in different areas.
+                    1. Prefer normalized state with one source of truth.
+                    1. Calculate derived data with pure functions.
+                    <aside class="notes">
+                      It might seem like a lot of extra calculation, but it will rarely end up being a performance problem.  Sacrifice architecture for performance only when necessary.
+                      React and even Flux will not urge you to architect your app in a perfect way, so watch out.  Redux is much more opinionated on good overall architecture.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Questions before we [get started](#/8)?
                     <aside class="notes">
                     </aside>
                   </script>
@@ -1735,8 +1952,8 @@
                 </section>
                 <section data-markdown>
                   <script type="text/template">
-                    <div class="section">Sprint 2</div>
-                    ## [Back to the top](#/8)
+                    <div class="section">From Here</div>
+                    ## [Back to the top](#/9)
                     <aside class="notes">
                     </aside>
                   </script>
