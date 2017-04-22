@@ -27,7 +27,7 @@
 			<div class="slides">
               <section data-markdown>
                 <script type="text/template">
-                  # React Workshop
+                  # React In a Day
                   ## Dev Meetings
                   ### Justin McCandless
                 </script>
@@ -36,10 +36,23 @@
                 <script type="text/template">
                   ## Hi I'm Justin
                   <ul>
-                    <li class="fragment">Engineer with Autodesk's BioNano group</li>
+                    <li class="fragment">Engineer at Autodesk Life Sciences</li>
                     <li class="fragment"><3 React since 2015</li>
                     <li class="fragment">@justinjmcc | justinmccandless.com</li>
                   </ul>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  ## What to Expect
+                  <ul>
+                    <li class="fragment">We're all going to build a React app over the course of the day.</li>
+                    <li class="fragment">We'll work in 5 separate "sprints" covering core React functionality.</li>
+                    <li class="fragment">I'll present the sprint's topics while working through my app, then turn it over to you guys and help out in person.</li>
+                  </ul>
+                  <aside class="notes">
+                    - How DevMeetings does things.
+                  </aside>
                 </script>
               </section>
               <section data-markdown>
@@ -52,12 +65,20 @@
                   - Sprint 3: Component lifecycle and complex interactions
                   - Sprint 4: Asynchronous data (integrating an API)
                   - Advanced topics and how to keep learning
+                  <aside class="notes">
+                    - Hands on learning practical stuff, but also understand fundamentals.
+                  </aside>
                 </script>
               </section>
               <section>
                 <section data-markdown>
                   <script type="text/template">
                     ## What is React?
+                    <aside class="notes">
+                      - What this section is about:
+                      - Understanding what React is, behind the curtain
+                      - No magic
+                    </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -67,6 +88,9 @@
                     ![HTML5 Boilerplate](./img/html.png)
                     <br />
                     Source: [https://html5boilerplate.com/](https://html5boilerplate.com/)
+                    <aside class="notes">
+                      - History lesson
+                    </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -76,7 +100,7 @@
                     Source: [http://codepen.io/justinmc/pen/oBRKeG](http://codepen.io/justinmc/pen/oBRKeG)
                     ```javascript
                     <button class="adder">+1</button>
-  <div class="count">0</div>
+                    <div class="count">0</div>
                     ```
                     ```javascript
                     var adderEl = document.querySelector('.adder');
@@ -89,7 +113,8 @@
                     ```
                     ![Direct DOM Manipulation Example](./img/increment.gif)
                     <aside class="notes">
-                      I was originally going to call this slide "jQuery Spaghetti".  This is great for simple interactivity, but is hard to maintain in large applications.
+                      - I was originally going to call this slide "jQuery Spaghetti".
+                      - This is great for simple interactivity, but is hard to maintain in large applications.
                     </aside>
                   </script>
                 </section>
@@ -99,7 +124,10 @@
                     ## Roots: MVC
                     ![MVC Diagram](./img/MVC-basic.svg)
                     <aside class="notes">
-                      Keep state in javascript, mutate state, and rerender. Backbone is a great example.  Potential performance problems with totally rerendering too much.
+                      - Keep state in javascript, mutate state, and rerender.
+                      - Backbone is a great example.
+                      - Potential performance problems with totally rerendering too much.
+                      - Potential architecture problem with needing to be wary of rerendering away temporary state
                     </aside>
                   </script>
                 </section>
@@ -113,7 +141,10 @@
                       <li class="fragment">That's pretty much it.</li>
                     </ol>
                     <aside class="notes">
-                      Very minimal.  Not a full MVC setup.  Plays well with others.  Solves the performance problem of rerendering too much.
+                      - Very minimal.
+                      - Not a full MVC setup.
+                      - Plays well with others.
+                      - Solves the performance problem of rerendering too much.
                     </aside>
                   </script>
                 </section>
@@ -138,6 +169,7 @@
                     ```
                     ![React Button Component Enabled](./img/button_component_enabled.png)
                     <aside class="notes">
+                      - This is JSX (coming up next).
                     </aside>
                   </script>
                 </section>
@@ -147,6 +179,7 @@
                     ## React: Data => HTML
                     ```javascript
                     function MyReactComponent() {
+                      // Let's change this data
                       const myButtonLabel = 'Don\'t Click Me :(';
                       const myButtonIsDisabled = true;
 
@@ -162,6 +195,7 @@
                     ```
                     ![React Button Component Enabled](./img/button_component_disabled.png)
                     <aside class="notes">
+                      - If the data changes, the output html changes to match it.
                     </aside>
                   </script>
                 </section>
@@ -194,7 +228,9 @@
                     ```
                     If you want to play around with compiling to JSX, try [Babel's repl](https://babeljs.io/repl) (don't forget to turn on the "react" preset).
                     <aside class="notes">
-                      Very similar to document.createElement!  We're going to use jsx in this workshop because it is very prevalent.
+                      - Very similar to document.createElement!
+                      - We're going to use jsx in this workshop because it is very prevalent.
+                      - But, take the time to convince yourself that there is no magic here.
                     </aside>
                   </script>
                 </section>
@@ -208,7 +244,10 @@
                       <li class="fragment">On a rerender, compares the current state of the DOM to the new state, then makes minimum number of operations needed to transition to the new state.</li>
                     </ul>
                     <aside class="notes">
-                      From what we've seen so far, you could imagine writing a library to insert these components into the dom yourself in a few hundred lines.  There are some libraries that do this!  Actually not bad performance in most cases.
+                      - From what we've seen so far, you could imagine writing a library to insert these components into the dom yourself in a few hundred lines.
+                      - There are some libraries that do this!
+                      - Actually not bad performance in most cases.
+                      - Think about how this solves the problem of rerendering a text input and having the cursor position change.
                     </aside>
                   </script>
                 </section>
@@ -222,13 +261,16 @@
                       <li class="fragment">Why does React go through all this trouble to avoid working with the DOM?  Because the DOM is a slow legacy dinosaur.</li>
                     </ul>
                     <aside class="notes">
-                      Not to be confused with the Shadow DOM.
+                      - Not to be confused with the Shadow DOM.
                     </aside>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     ## Ok you guys pretty much know React now, let's build something.
+                    <aside class="notes">
+                      - Or at least I hope everyone understands what React is!
+                    </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -236,11 +278,12 @@
                     ## Tips!
                     - Whenever you finish a task, commit!
                       - That way, if we have to move on while you're still working, you can stash and get back to a working state.
+                    - Aim to finish green Basic tasks first, then polish up or pick and choose other tasks you want to try.
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
-                    ## [The Sprints](#/3)
+                    ## [The Sprints](#/4)
                   </script>
                 </section>
               </section>
@@ -1944,20 +1987,55 @@
                   </script>
                 </section>
               </section>
-              <section>
-                <section data-markdown>
-                  <script type="text/template">
-                    ## From Here
-                  </script>
-                </section>
-                <section data-markdown>
-                  <script type="text/template">
-                    <div class="section">From Here</div>
-                    ## [Back to the top](#/9)
-                    <aside class="notes">
-                    </aside>
-                  </script>
-                </section>
+              <section data-markdown>
+                <script type="text/template">
+                  ## From Here
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  <div class="section">From Here</div>
+                  # Why React?
+                  - React can greatly simplify the architecture of complex frontend apps
+                  - State is the root of complexity, and React makes you painfully aware of what your state is
+                  - Writing what an app looks like based on its state: N complexity
+                  - (jQuery soup) Writing what an app should do to transition to/from all possible states: N^2 complexity
+                  <aside class="notes">
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  <div class="section">From Here</div>
+                  # Why not React?
+                  - React is big
+                  - React won't get stuff on the screen at light speed (see server side rendering)
+                  - Many other libraries don't work well with the data binding model
+                  - Lots of boilerplate, lots of files, sometimes lots of changes to do simple things
+                  <aside class="notes">
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  <div class="section">From Here</div>
+                  ## Links & STuff about React things
+                  - React Router
+                  - Preact, oak, etc. lighter things
+                  - Redux of course
+                  - Webpack and other build systems for more control
+                  - Server side rendering
+                  <aside class="notes">
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  <div class="section">From Here</div>
+                  ## [Back to the top](#/9)
+                  <aside class="notes">
+                  </aside>
+                </script>
               </section>
               <section data-markdown>
                 <script type="text/template">
@@ -1972,8 +2050,8 @@
                 </section>
                 <section data-markdown>
                   <script type="text/template">
-                    ## React @ Autodesk BioNano
-                    ![Autodesk BioNano MST Project](./img/mst.png)
+                    ## React @ Autodesk Life Sciences
+                    ![Autodesk Life Sciences MST Project](./img/mst.png)
                   </script>
                 </section>
                 <section data-markdown>
