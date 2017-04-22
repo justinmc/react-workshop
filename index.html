@@ -46,12 +46,23 @@
                 <script type="text/template">
                   ## What to Expect
                   <ul>
-                    <li class="fragment">We're all going to build a React app over the course of the day.</li>
+                    <li class="fragment">We're each going to build our own React app over the course of the day.</li>
                     <li class="fragment">We'll work in 5 separate "sprints" covering core React functionality.</li>
                     <li class="fragment">I'll present the sprint's topics while working through my app, then turn it over to you guys and help out in person.</li>
                   </ul>
                   <aside class="notes">
                     - How DevMeetings does things.
+                  </aside>
+                </script>
+              </section>
+              <section data-markdown>
+                <script type="text/template">
+                  ## Quick Think of an App Idea
+                  ![Direct DOM Manipulation Example](./img/full_app_flow.gif)
+                  - That's what I'll be building
+                  - Your app was intended to be something like a social network, but anything with a feed will work.</li>
+                  <aside class="notes">
+                    - If you have an idea you actually want to put in production some day, feel free to get started here!
                   </aside>
                 </script>
               </section>
@@ -295,9 +306,12 @@
                     1. <span class="task-basic">Initialize a git repository.
                     1. <span class="task-basic">Edit the big title on the page and see it update in your browser.</span>
                     1. <span class="task-basic">Create your own "Post" React component and render it.</span>
-                    1. <span class="task-basic">Make it awesome with CSS and hardcoded info.</span>
+                    1. <span class="task-basic">Make it awesome with CSS and static info.</span>
                     1. <span class="task-advanced">Install a linter like the [airbnb eslint config](https://www.npmjs.com/package/eslint-config-airbnb) and make your jsx code comply!</span>
                     1. <span class="task-extra">Install [redux](http://redux.js.org/), create a Container above your "Post" component, and feed it dummy data.</span>
+                    <aside class="notes">
+                      - Note that the title here links to the code in the github repo for this sprint.
+                    </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -307,6 +321,19 @@
                     - We're using it because it's easy and very widely used.
                     - It will be compiling our jsx, es7, and serving the compiled static assets.
                     - You can do fancier things with tools like Webpack and your own setup, though, so check those out if you end up with more build requirements.
+                    <aside class="notes">
+                      - We're using es7 for the same reason we're using jsx: it's very prevalent in the React community.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 0</div>
+                    ## Default App.js component
+                    ![Rendering of default component](./img/default_component.png)
+                    <aside class="notes">
+                      - This is what create-react-app generates for you.
+                    </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -337,15 +364,28 @@
                     export default App;
                     ```
                     <aside class="notes">
-                      Note that we're using a class here instead of a function.  Both are ok!
+                      - Note that we're using a class here instead of a function.  Both are ok!
+                      - Note the importing of css and an svg.  create-react-app will make sure both get bundled where they need to.
+                      - Note React must be imported into the page, even though it's never referenced (when compiled from JSX, it will use React!).
                     </aside>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 0</div>
-                    ## Default App.js component
-                    ![Rendering of default component](./img/default_component.png)
+                    ## Components as Classes and Functions
+                    - The previous default component is equivalent to:
+                    ```javascript
+                    function Component() {
+                      return (
+                        ...
+                      );
+                    }
+                    ```
+                    - The difference? Functions are purely functional, classes can be stateful (as we'll see).
+                    <aside class="notes">
+                      - Also, in a class it's possible to use React's built in lifecycle methods.
+                    </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -453,13 +493,14 @@
                       </ul>
                       ```
                     <aside class="notes">
+                      - Go Dog Go is gone, but that's a problem for next sprint!
                     </aside>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 0</div>
-                    ## Questions before we [get started](#/3)?
+                    ## Questions before we [get started](#/5)?
                     <aside class="notes">
                     </aside>
                   </script>
@@ -1556,7 +1597,7 @@
                     1. <span class="task-basic">Introduce a tight performance requirement</span>
                     1. <span class="task-basic">Add multiple components that used the same state with derived data</span>
                     1. <span class="task-advanced">Use immutable data to increase performance and reliability</span>
-                    1. <span class="task-advanced">Use Flux/Redux to keep store data and mutations totally independent</span>
+                    1. <span class="task-extra">Use Flux/Redux to keep store data and mutations totally independent</span>
                   </script>
                 </section>
                 <section data-markdown>
