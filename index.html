@@ -100,8 +100,7 @@
                     <br />
                     Source: [https://html5boilerplate.com/](https://html5boilerplate.com/)
                     <aside class="notes">
-                      - History lesson
-                    </aside>
+                      - History lesson </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -514,6 +513,10 @@
                     1. <span class="task-basic">Add some local dynamic interactions with state.</span>
                     1. <span class="task-advanced">Build some generic UI components for your app like a `<Button />`.</span>
                     1. <span class="task-extra">When the user performs an action like the one controlled by state in this sprint, call an action, dispatch an event, and modify state via a reducer.</span>
+                    <aside class="notes">
+                      - We'll get into more complicated dynamic stuff like text forms next sprint.
+                      - Can do some really great frontend arch stuff by building generic reusable components!
+                    </aside>
                   </script>
                 </section>
                 <section data-markdown>
@@ -522,9 +525,9 @@
                     ## Props and State
                     - Props is an object containing all data passed in to the component.
                     - State is an object representing all state internal to the component.
-                    - Anytime either one changes, the component will rerender.
+                    - Anytime either one changes, the component will attempt to rerender.
                     <aside class="notes">
-                      Component will kick off its whole process of DOM diffing and modifying the DOM if necessary.
+                      - Component will kick off its whole process of DOM diffing and modifying the DOM if necessary.
                     </aside>
                   </script>
                 </section>
@@ -546,7 +549,7 @@
                     </ul>
                     ```
                     <aside class="notes">
-                      You can pass any javascript primitives or variables as props!
+                      - You can pass any javascript primitives or variables as props!
                     </aside>
                   </script>
                 </section>
@@ -566,11 +569,38 @@
                               {this.props.title}
                             </div>
                             <div>
-                              {`by ${this.props.author}`}
+                              by {this.props.author}
                             </div>
                           </li>
                         );
                       }
+                    }
+                    ```
+                    <aside class="notes">
+                      - What would this look like for a pure function component?
+                      - (See next slide)
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 1</div>
+                    ## Passing Props to the Book Component (function)
+                    `Book.js`
+                    ```javascript
+                    function Book(props) {
+                      return (
+                        <li
+                          className="book"
+                        >
+                          <div>
+                            {props.title}
+                          </div>
+                          <div>
+                            by {props.author}
+                          </div>
+                        </li>
+                      );
                     }
                     ```
                     <aside class="notes">
@@ -591,18 +621,19 @@
                     }
                     ```
                     <aside class="notes">
-                      This syntax is equivalent to `Book.defaultProps = {};` etc.
+                      - This syntax is equivalent to `Book.defaultProps = {};` etc.
                     </aside>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     ## State
-                    I'll add a "favorite" indicator on books that I want to work something like this:
+                    I'll add a little "favorite" indicator on books like that works like this:
                     <br />
                     ![State UI](./img/state.gif)
                     <div class="section">Sprint 1</div>
                     <aside class="notes">
+                      - Doesn't actually have any broader functionality, just toggles :)
                     </aside>
                   </script>
                 </section>
@@ -631,7 +662,8 @@
                     }
                     ```
                     <aside class="notes">
-                      If I add the "enabled" class to the span, it will show filled red.
+                      - What will this render?
+                      - If I add the "enabled" class to the span, it will show filled red.
                     </aside>
                   </script>
                 </section>
@@ -671,7 +703,9 @@
                     }
                     ```
                     <aside class="notes">
-                      If you're not using es6 classes, you can use getInitialState.
+                      - Previously was inheriting its constructor from React.Component.
+                      - Must call super with props if you have a constructor.
+                      - If you're not using es6 classes, you can use getInitialState.
                     </aside>
                   </script>
                 </section>
@@ -694,7 +728,11 @@
                     />
                     ```
                     <aside class="notes">
-                      This is es7 class property declaration syntax.  Otherwise, `onClickFavorite() {` and `this.onClickFavorite = this.onClickFavorite.bind(this)` in constructor.
+                      - `setState` will merge old state with new state and attempt a rerender.
+                      - All supported events like `onClick`: https://facebook.github.io/react/docs/events.html#supported-events
+                      - This is es7 class property declaration syntax.
+                      - Otherwise, `onClickFavorite() {` and `this.onClickFavorite = this.onClickFavorite.bind(this)` in constructor.
+                      - React doesn't want you to call `.bind` inside `render` for performance reasons.
                     </aside>
                   </script>
                 </section>
@@ -758,9 +796,13 @@
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 1</div>
-                    ## Questions before we [get started](#/4)?
+                    ## Questions before we [get started](#/7)?
                     <aside class="notes">
-                      Text inputs will come next.
+                      - Text inputs will come next.
+                      - Is there a `setProps`? No!
+                      - Basically, props comes from state somewhere up the chain, so modify state and let it propagate.
+                      - Can pass a function into child component to be called to modify parent state.
+                      - We'll cover in more detail next sprint.
                     </aside>
                   </script>
                 </section>
