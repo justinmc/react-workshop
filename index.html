@@ -828,20 +828,21 @@
                     - Just make sure each element has a unique `key` attribute.
                     <div class="fragment">
                       ```javascript
-                        <ol>
+                        <ul>
                           {
                             ['a', 'b', 'c'].map((element) => (
                               <li key={element}>{element}</li>
                             ))
                           }
-                        </ol>
+                        </ul>
                       ```
                     </div>
                     <div class="fragment">
                       ![Render of loop code](./img/list_loop.png)
                     </div>
                     <aside class="notes">
-                      React uses the `key` attribute to uniquely identify elements in order to do the most efficient DOM manipulations when your data changes.  If you forget it, React will log a warning.
+                      - React uses the `key` attribute to uniquely identify elements in order to do the most efficient DOM manipulations when your data changes.
+                      - If you forget it, React will log a warning.
                     </aside>
                   </script>
                 </section>
@@ -884,6 +885,7 @@
                       </ul>
                     ```
                     <aside class="notes">
+                      - Now we're nicely set up to render any number of books.
                     </aside>
                   </script>
                 </section>
@@ -899,7 +901,8 @@
                       ![Input with value set to string](./img/input_with_value.png)
                     </div>
                     <aside class="notes">
-                      And what happens if the user tries to change the input?  Nothing!  It won't change.  React will rerender it immediately.
+                      - And what happens if the user tries to change the input?
+                      - Nothing!  It won't change.  React will rerender it immediately.
                     </aside>
                   </script>
                 </section>
@@ -918,13 +921,13 @@
                       <input
                         type="text"
                         value="words go here"
-                        onChange={this.onChangeInput} />
+                        onChange={this.onChangeInput}
+                      />
                     ```
                     <div class="fragment">
                       Answer: The value that the user updated the input to (after first keystroke)
                     </div>
                     <aside class="notes">
-                      Note the class property syntax used to avoid needing to `.bind`.
                     </aside>
                   </script>
                 </section>
@@ -954,9 +957,6 @@
                         value={this.state.inputValue}
                         onChange={this.onChangeInput} />
                     ```
-                    <div class="fragment">
-                      Answer: The value that the user updated the input to (after first keystroke)
-                    </div>
                     <aside class="notes">
                       Note the class property syntax used to avoid needing to `.bind`.
                     </aside>
@@ -966,7 +966,7 @@
                   <script type="text/template">
                     <div class="section">Sprint 2</div>
                     ## That was a lot of typing...
-                    - React is verbose, but for complex apps, the architectural benefits are worth it.
+                    - React is verbose, but for complex apps, the architectural benefits are often worth it.
                     - As forms get more complicated it's nice to have input values match variables.
                     - If you're sure you don't need a full controlled input, you can always just grab values from the html element. See [uncontrolled inputs](https://facebook.github.io/react/docs/uncontrolled-components.html) in the docs.
                     <aside class="notes">
@@ -1009,8 +1009,8 @@
                       ```
                     </div>
                     <aside class="notes">
-                      You have to notify React when you mutate state. To enforce this, the [immutablejs](https://facebook.github.io/immutable-js/docs) library is popularly used.
-                      You might start to see the benefit in declaring your UI based on state so verbosely now.  Very easy to add an item to the books array and have it render updated.
+                      - You have to notify React when you mutate state. To enforce this, the [immutablejs](https://facebook.github.io/immutable-js/docs) library is popularly used.
+                      - You might start to see the benefit in declaring your UI based on state so verbosely now.  Very easy to add an item to the books array and have it render updated.
                     </aside>
                   </script>
                 </section>
@@ -1023,6 +1023,7 @@
                       <Add onAdd={this.onAddBook} />
                     ```
                     <aside class="notes">
+                      - Note that we're passing a function in as props!  You can totally do that.
                     </aside>
                   </script>
                 </section>
@@ -1049,6 +1050,7 @@
                       }
                     ```
                     <aside class="notes">
+                      - Boilerplate component
                     </aside>
                   </script>
                 </section>
@@ -1078,7 +1080,8 @@
                       </form>
                     ```
                     <aside class="notes">
-                      The use of a form element with an `onSubmit` just takes advantage of the browser a bit (pressing the Enter key in an input will submit the form).
+                      - The use of a form element with an `onSubmit` just takes advantage of the browser a bit.
+                      - (Pressing the Enter key in an input will submit the form)
                     </aside>
                   </script>
                 </section>
@@ -1125,7 +1128,7 @@
                       }
                     ```
                     <aside class="notes">
-                      Does this look repetetive?  You can totally use `target.name` to write a generic handler for both.  See the [React Form docs](https://facebook.github.io/react/docs/forms.html).
+                      - Does this look repetetive?  You can totally use `target.name` to write a generic handler for both.  See the [React Form docs](https://facebook.github.io/react/docs/forms.html).
                     </aside>
                   </script>
                 </section>
@@ -1189,6 +1192,7 @@
 
                         onSubmit = (e) => {
                           e.preventDefault();
+
                           this.props.onAdd({ title: this.state.title, author: this.state.author });
 
                           this.setState({
@@ -1224,14 +1228,16 @@
                       export default Add;
                     ```
                     <aside class="notes">
-                      We modify the state data, and React updates the UI to reflect that.  Super powerful and simple to understand.
+                      - We modify the state data, and React updates the UI to reflect that.  Super powerful and simple to understand.
+                      - Also, notice how reusable this component is.
+                      - It knows nothing about the rest of the app above it.
                     </aside>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 2</div>
-                    ## Questions before we [get started](#/6)?
+                    ## Questions before we [get started](#/8)?
                     <aside class="notes">
                     </aside>
                   </script>
