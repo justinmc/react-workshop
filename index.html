@@ -1262,15 +1262,7 @@
                     - What if a user could search for a book and have the details autofilled?
                     ![UI with API integrated](./img/api.gif)
                     <aside class="notes">
-                    </aside>
-                  </script>
-                </section>
-                <section data-markdown>
-                  <script type="text/template">
-                    <div class="section">Sprint 3</div>
-                    ## Using an API
-                    ![UI with API integrated](./img/api.gif)
-                    <aside class="notes">
+                      - Notice that I added a description to the books.
                     </aside>
                   </script>
                 </section>
@@ -1362,7 +1354,7 @@
                       - Pardon all the Google Books api finagling that's irrelevant to React.
                       - Takes title/author, returns a promise that resolves with a book.  Simple.
                       - axios is promise based, note the then/catch and error throwing.
-                      - Why write a separate method in a separate file?  Very compartmentalized, testable logic here.  And I think it's nice to have all network access in one place.
+                      - Why write a separate method in a separate file?  Very compartmentalized, testable logic here.  And I think it's nice to separate out network access.
                     </aside>
                   </script>
                 </section>
@@ -1388,6 +1380,8 @@
                       }
                     ```
                     <aside class="notes">
+                      - Everyone familiar with promises and error handling?
+                      - This is a bad way to handle errors for now, but need to do something.
                     </aside>
                   </script>
                 </section>
@@ -1442,6 +1436,7 @@
                     ```
                     ![Disabled inputs](./img/disabled_inputs.png)
                     <aside class="notes">
+                      - Maybe a loading spinner would be more ideal.
                     </aside>
                   </script>
                 </section>
@@ -1552,7 +1547,7 @@
                     <div class="section">Sprint 3</div>
                     ## Using an API - Error State
                     - We want to give the user a good idea whether their input is valid or not.
-                    - Where should we set the error message?
+                    - Where should we set/unset the error message?
 
                     ```javascript
                       onSubmit = (e) => {
@@ -1570,6 +1565,7 @@
                       }
                     ```
                     <aside class="notes">
+                      - Loading removed for conciseness :)
                     </aside>
                   </script>
                 </section>
@@ -1621,7 +1617,7 @@
                   <script type="text/template">
                     <div class="section">Sprint 3</div>
                     ## Async Tasks React Review
-                    - Many of you have probably implemented a flow like this plenty of times before.
+                    - Many of you have probably implemented a flow like this plenty of times before using another stack.
                     - How does it feel to do it in React?
                     - React can be verbose, but you should be confident that there are no edge cases that the app will get in that you haven't considered.
                     <aside class="notes">
@@ -1632,7 +1628,7 @@
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 3</div>
-                    ## Questions before we [get started](#/7)?
+                    ## Questions before we [get started](#/9)?
                     <aside class="notes">
                     </aside>
                   </script>
