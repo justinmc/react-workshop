@@ -511,6 +511,7 @@
                     ## [Sprint 1](https://github.com/justinmc/react-workshop-app/tree/sprint1)
                     1. <span class="task-basic">Feed your nested components data via props.</span>
                     1. <span class="task-basic">Add some local dynamic interactions with state.</span>
+                    1. <span class="task-basic">Install the [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en) in your browser and use it to play with your props/state.</span>
                     1. <span class="task-advanced">Build some generic UI components for your app like a `<Button />`.</span>
                     1. <span class="task-extra">When the user performs an action like the one controlled by state in this sprint, call an action, dispatch an event, and modify state via a reducer.</span>
                     <aside class="notes">
@@ -842,7 +843,47 @@
                     </div>
                     <aside class="notes">
                       - React uses the `key` attribute to uniquely identify elements in order to do the most efficient DOM manipulations when your data changes.
-                      - If you forget it, React will log a warning.
+                      - If you forget it in a loop, React will log a warning.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Looping in JSX
+                    <ul>
+                      <li>Why is `key` important?</li>
+                      <li class="fragment">When rerendering, React uses `key` to determine how to reconcile the new and old array of elements:</li>
+                      <ul>
+                        <li class="fragment">If a key exists in the new elements and not in the old, add.</li>
+                        <li class="fragment">If a key exists in the old elements and not in the new, remove.</li>
+                        <li class="fragment">If a key exists in both, reconcile their differences.</li>
+                        <li class="fragment">If a new element has no key, use its position</li>
+                      </ul>
+                      <li class="fragment">[Article on this topic](http://buildwithreact.com/article/in-depth-diffing)</li>
+                    </ul>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Looping in JSX
+                    - Using keys, the minimum DOM operation happens.
+                    ![DOM modifications with keys](./img/add_key.gif)
+                    <aside class="notes">
+                      - Only 1 li insertion
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 2</div>
+                    ## Looping in JSX
+                    - Without using keys, not so efficient :(
+                    ![DOM modifications with keys](./img/add_no_keys.gif)
+                    <aside class="notes">
                     </aside>
                   </script>
                 </section>
@@ -1660,11 +1701,13 @@
                   <script type="text/template">
                     <div class="section">Sprint 4</div>
                     ## Where React Will Get Difficult
-                    - Performance - where it's fast and slow
+                    - Performance - Where it's fast and slow
                     - Architecture - Smart and dumb components
                     - Architecture - Complicated derived data
                     - When you shouldn't use React at all
                     <aside class="notes">
+                      - We've already gone over most of the main ideas of React.
+                      - But you could spend years getting perfect architecture down for different situations.
                     </aside>
                   </script>
                 </section>
@@ -1689,6 +1732,7 @@
                       }
                     ```
                     <aside class="notes">
+                      - Know what this is doing?
                     </aside>
                   </script>
                 </section>
@@ -1725,7 +1769,7 @@
                       }
                     ```
                     <aside class="notes">
-                      Notice we've removed all of our API code here.  Just add the given book.
+                      - Notice we've removed all of our API code here.  Just add the given book.
                     </aside>
                   </script>
                 </section>
@@ -1754,6 +1798,9 @@
                     - Now let's profile how it takes to modify our book list.
                     ![Screen capture of adding new books](./img/perf_add_mutable.gif)
                     <aside class="notes">
+                      - Notice:
+                      - Adds a single li, doesn't rerender the whole list
+                      - Chugs after pressing submit. 237ms
                     </aside>
                   </script>
                 </section>
@@ -1826,6 +1873,7 @@
                     ## [Performance - Rerenders](https://github.com/justinmc/react-workshop-app/commit/f65bb7c32e955d8ea0b8cb44f70c996094c72804)
                     ![Screen capture of profiling fast book add](./img/perf_add_immutable.gif)
                     <aside class="notes">
+                      - 188ms
                     </aside>
                   </script>
                 </section>
