@@ -1681,7 +1681,8 @@
                     ## [Sprint 4](https://github.com/justinmc/react-workshop-app/tree/sprint4)
                     1. <span class="task-basic">Introduce a tight performance requirement</span>
                     1. <span class="task-basic">Add multiple components that used the same state with derived data</span>
-                    1. <span class="task-advanced">Use immutable data to increase performance and reliability</span>
+                    1. <span class="task-basic">Divide your app into [presentational and container](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0) components.</span>
+                    1. <span class="task-advanced">Use [immutable](https://facebook.github.io/immutable-js) data to increase performance and reliability</span>
                     1. <span class="task-extra">Use Flux/Redux to keep store data and mutations totally independent</span>
                   </script>
                 </section>
@@ -1702,8 +1703,8 @@
                     <div class="section">Sprint 4</div>
                     ## Where React Will Get Difficult
                     - Performance - Where it's fast and slow
-                    - Architecture - Smart and dumb components
                     - Architecture - Complicated derived data
+                    - Architecture - Where to separate components
                     - When you shouldn't use React at all
                     <aside class="notes">
                       - We've already gone over most of the main ideas of React.
@@ -1897,13 +1898,16 @@
                   <script type="text/template">
                     <div class="section">Sprint 4</div>
                     ## Architecture
-                    Say I want to add the following:
-                    1. A checkbox that filters the list to show only favorited books
-                    1. A count of the total number of favorited books
+                    <div class="fragment">
+                      Say I want to add the following:
+                      1. A checkbox that filters the list to show only favorited books
+                      1. A count of the total number of favorited books
 
-                    ![Favorites toggle screenshot](./img/favorites_filter.png)
-
-                    What could the new state look like?
+                      ![Favorites toggle screenshot](./img/favorites_filter.png)
+                    </div>
+                    <div class="fragment">
+                      What could the props/state look like for this component?
+                    </div>
                     <aside class="notes">
                     </aside>
                   </script>
@@ -1945,7 +1949,8 @@
                         }
                     ```
                     <aside class="notes">
-                      FavoriteFilter.js method called when ticking the checkbox.
+                      - FavoriteFilter method called when ticking the checkbox.
+                      - One of several ways we could do this function.
                     </aside>
                   </script>
                 </section>
@@ -1982,6 +1987,8 @@
                     - Only Book.js knows whether a book is favorited, because favorite status is only used to fill the red dot.
                     - For this feature, we'll need to lift this piece of state up out of Book.js so it can be used elsewhere.
                     <aside class="notes">
+                      - This is a common situation in building React apps.
+                      - Keep state as low as possible, raise it when needed in morme places.
                     </aside>
                   </script>
                 </section>
@@ -2011,7 +2018,7 @@
                       }
                     ```
                     <aside class="notes">
-                      We are uniquely identifying books with their title now.  In a real app, it's probably more robust to generate a random id instead!
+                      - We are uniquely identifying books with their title now.  In a real app, it's probably more robust to generate a random id instead!
                     </aside>
                   </script>
                 </section>
@@ -2050,9 +2057,9 @@
                     ```javascript
                     render() {
                       let displayBooks;
-                      const favoritedBooks = this.state.books.filter(book => book.favorited);
 
                       if (this.state.favoritesFilterOn) {
+                        const favoritedBooks = this.state.books.filter(book => book.favorited);
                         displayBooks = favoritedBooks;
                       } else {
                         displayBooks = this.state.books;
@@ -2065,6 +2072,9 @@
                       ...
                     ```
                     <aside class="notes">
+                      - Notice that yes, we're recalculating the filtered list on every render.
+                      - Things like this might seem wasteful coming from a direct-dom-manipulation background.
+                      - I say only sacrifice architecture for performance when there is a real performance problem.
                     </aside>
                   </script>
                 </section>
@@ -2076,6 +2086,7 @@
 
                     ![Favorite filtering animation](./img/favorite_filter_no_count.gif)
                     <aside class="notes">
+                      - Notice the count doesn't work yet :)
                     </aside>
                   </script>
                 </section>
@@ -2106,15 +2117,139 @@
                     1. Prefer normalized state with one source of truth.
                     1. Calculate derived data with pure functions.
                     <aside class="notes">
-                      It might seem like a lot of extra calculation, but it will rarely end up being a performance problem.  Sacrifice architecture for performance only when necessary.
-                      React and even Flux will not urge you to architect your app in a perfect way, so watch out.  Redux is much more opinionated on good overall architecture.
+                      - RE raising, otherwise state should be as low as possible.
+                      - It might seem like a lot of extra calculation, but it will rarely end up being a performance problem.  Sacrifice architecture for performance only when necessary.
+                      - React and even Flux will not urge you to architect your app in a perfect way, so watch out.  Redux is much more opinionated on good overall architecture.
                     </aside>
                   </script>
                 </section>
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 4</div>
-                    ## Questions before we [get started](#/8)?
+                    ## Architecture - Components
+                    How much logic should components handle?
+
+                    Where should we draw the line between components?
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Components
+                    Look at your component in your browser window...
+                    <div class="fragment">
+                      ![favorites highlighted in window](./img/focus_favorites.png)
+                    </div>
+                    <div class="fragment">
+                      And try to keep the component from knowing anything outside its box.
+                    </div>
+                    <aside class="notes">
+                      - Encapsulation
+                      - If the component's code is naming things outside itself, that's a smell.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Components
+                    Notice some of our props functions...
+                    ```javascript
+                      onChange = () => {
+                        this.props.onChange(!this.props.favoritesFilterOn);
+                      }
+                    ```
+                    ```javascript
+                      onClickFavorite = () => {
+                        this.props.onToggleFavorite(this.props.title);
+                      }
+                    ```
+                    <ul class="fragment">
+                      <li>Name them what the user did, not what you want to happen.</li>
+                      <li>Let the component above handle that.</li>
+                      <li>Keep presentational components as dumb as possible.</li>
+                    </ul>
+                    <aside class="notes">
+                      - Keep everything reusable if possible.
+                      - Kinda seems like just a naming thing here, but can make a big difference in bigger apps.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Components
+                    <ul>
+                      <li class="fragment">You'll probably end up with "smarter" container components above these presentational components.</li>
+                      <li class="fragment">Feel free to add these components to make the architecture more understandable, even if they have no UI themselves!</li>
+                    </ul>
+                    <aside class="notes">
+                      - Say you have a Modal presentation component.
+                      - Turn it into an UploadModal with a container component wrapping it.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Components
+                    - Maybe we have a generic presentational Modal component.
+                    <div class="fragment">
+                      ```javascript
+                        function Modal(props) {
+                          return (
+                            <div class={`modal${props.open ? ' open' : ''}`}>
+                              <div class="modal-overlay" onClick={props.onClose}>
+                                <div class="modal-window">
+                                  <div class="modal-content">
+                                    {props.children}
+                                  </div>
+                                  <button onClick={props.onAccept}>Ok</button>
+                                </div>
+                              </div>
+                            </div>
+                          );
+                      ```
+                    </div>
+                    <aside class="notes">
+                      - Notice `props.children`, special prop for child elements.
+                      - You can use this to put presentational components higher in the DOM tree too!
+                      - (Like a Page component etc.)
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Architecture - Components
+                    - We could use a container component to make it a useful UploadModal.
+                    <div class="fragment">
+                      ```javascript
+                        class UploadModal extends Component {
+                          render() {
+                            return (
+                              <Modal
+                                open={this.state.open}
+                                onAccept={this.state.onFinishUpload}
+                                onClose={this.state.onClose}
+                              >
+                                <UploadForm />
+                              </Modal>
+                            );
+                          }
+                        }
+                      ```
+                    </div>
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">Sprint 4</div>
+                    ## Questions before we [get started](#/10)?
                     <aside class="notes">
                     </aside>
                   </script>
