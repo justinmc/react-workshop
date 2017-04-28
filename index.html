@@ -35,10 +35,10 @@
               <section data-markdown>
                 <script type="text/template">
                   ## Hi I'm Justin
-                  <ul>
-                    <li class="fragment">Engineer at Autodesk Life Sciences</li>
-                    <li class="fragment"><3 React since 2015</li>
-                    <li class="fragment">@justinjmcc | justinmccandless.com</li>
+                  <ul class="fragment">
+                    <li>Engineer at Autodesk Life Sciences</li>
+                    <li><3 React since 2015</li>
+                    <li>@justinjmcc | justinmccandless.com</li>
                   </ul>
                 </script>
               </section>
@@ -75,7 +75,7 @@
                   - Sprint 2: Forms and mutating state
                   - Sprint 3: Component lifecycle and complex interactions
                   - Sprint 4: Asynchronous data (integrating an API)
-                  - Advanced topics and how to keep learning
+                  - References and how to keep learning
                   <aside class="notes">
                     - Hands on learning practical stuff, but also understand fundamentals.
                   </aside>
@@ -213,9 +213,9 @@
                   <script type="text/template">
                     <div class="section">Introduction: What is React?</div>
                     ## Wait but how are you writing HTML in your JS?
-                    <ul>
-                      <li class="fragment">It's called JSX!</li>
-                      <li class="fragment">It's a preprocessing language that gets compiled to plain old javascript.</li>
+                    <ul class="fragment">
+                      <li>It's called JSX!</li>
+                      <li>It's a preprocessing language that gets compiled to plain old javascript.</li>
                     </ul>
                   </script>
                 </section>
@@ -293,7 +293,7 @@
                 </section>
                 <section data-markdown>
                   <script type="text/template">
-                    ## [The Sprints](#/4)
+                    ## [The Sprints](#/6)
                   </script>
                 </section>
               </section>
@@ -499,7 +499,7 @@
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">Sprint 0</div>
-                    ## Questions before we [get started](#/5)?
+                    ## Questions before we [get started](#/6)?
                     <aside class="notes">
                     </aside>
                   </script>
@@ -1690,11 +1690,10 @@
                   <script type="text/template">
                     <div class="section">Sprint 4</div>
                     <blockquote cite="https://www.goodreads.com/quotes/497572-true-wisdom-is-knowing-what-you-don-t-know">
-                    "True wisdom is knowing what you don't know"
+                    "True wisdom is knowing you know nothing."
                     </blockquote>
-					\- Confucius
                     <aside class="notes">
-                    By now you know how to use React, but as you build more complicated real projects, you'll find that there's a lot more knowledge to learn.
+                      - By now you know how to use React, but as you build more complicated real projects, you'll find that there's a lot more knowledge to learn.
                     </aside>
                   </script>
                 </section>
@@ -2265,10 +2264,9 @@
                   <script type="text/template">
                     <div class="section">From Here</div>
                     # Why React?
-                    - React can greatly simplify the architecture of complex frontend apps
-                    - State is the root of complexity, and React makes you painfully aware of what your state is
-                    - Writing what an app looks like based on its state: N complexity
-                    - (jQuery soup) Writing what an app should do to transition to/from all possible states: N^2 complexity
+                    - React can greatly simplify the architecture of complex frontend apps.
+                    - State is the root of complexity, and React makes you painfully aware of what your state is.
+                    - At the same time, it lets you forget about DOM manipulation in your app entirely.
                     <aside class="notes">
                     </aside>
                   </script>
@@ -2277,10 +2275,20 @@
                   <script type="text/template">
                     <div class="section">From Here</div>
                     # Why not React?
-                    - React is big
-                    - React won't get stuff on the screen at light speed (see server side rendering)
-                    - Many other libraries don't work well with the data binding model
-                    - Lots of boilerplate, lots of files, sometimes lots of changes to do simple things
+                    - React is relatively big.
+                    - React won't get stuff on the screen at light speed (see server side rendering).
+                    - Many other libraries don't work well with the data binding model.
+                    - Lots of boilerplate, lots of files, sometimes lots of changes to do simple things.
+                    <aside class="notes">
+                      - If you're rendering a landing page, probably shouldn't be waiting for React to load.
+                      - If your app is mostly D3 or Three.js, might take some work to tie in React.
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">From Here</div>
+                    ## References
                     <aside class="notes">
                     </aside>
                   </script>
@@ -2288,12 +2296,44 @@
                 <section data-markdown>
                   <script type="text/template">
                     <div class="section">From Here</div>
-                    ## Links & STuff about React things
-                    - React Router
-                    - Preact, oak, etc. lighter things
-                    - Redux of course
-                    - Webpack and other build systems for more control
-                    - Server side rendering
+                    ## References - React
+                    - [Docs](https://facebook.github.io/react/docs/react-component.html)
+                      - [Component Lifecycle](https://facebook.github.io/react/docs/react-component.html)
+                      - [List of PropTypes](https://facebook.github.io/react/docs/typechecking-with-proptypes.html#proptypes)
+                      - [Performance](https://facebook.github.io/react/docs/optimizing-performance.html)
+                    - [Presentational and Container Components](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0)
+                    - [Diffing Algorithm Explained (and other good articles)](http://buildwithreact.com/article/in-depth-diffing)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">From Here</div>
+                    ## References - Use With React
+                    - Build
+                      - [create-react-app](https://github.com/facebookincubator/create-react-app)
+                      - [webpack](https://webpack.github.io/)
+                    - Frameworks
+                      - [Flux](https://facebook.github.io/flux/)
+                      - [Redux](http://redux.js.org/)
+                    - Libraries
+                      - [React Router](https://github.com/ReactTraining/react-router)
+                      - [immutable.js](https://facebook.github.io/immutable-js/docs)
+                    <aside class="notes">
+                    </aside>
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    <div class="section">From Here</div>
+                    ## References - Instead of React
+                    - Smaller/Simpler
+                      - [Preact](https://github.com/developit/preact)
+                      - [deku](https://github.com/anthonyshort/deku)
+                      - [choo](https://github.com/yoshuawuyts/choo)
+                    - Pure Alternatives
+                      - Vue, Elm, Angular, Ember, Polymer, Riot, Mithril, etc!
                     <aside class="notes">
                     </aside>
                   </script>
@@ -2322,6 +2362,12 @@
                   <script type="text/template">
                     ## React @ Autodesk Life Sciences
                     ![Autodesk Life Sciences MST Project](./img/mst.png)
+                  </script>
+                </section>
+                <section data-markdown>
+                  <script type="text/template">
+                    ## React @ Autodesk Life Sciences
+                    ![Autodesk Life Sciences Genetic Constructor Project](./img/genetic_constructor.png)
                   </script>
                 </section>
                 <section data-markdown>
