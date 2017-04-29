@@ -82,8 +82,8 @@
                   - Sprint 1: Dynamic state and props
                   - Lunch
                   - Sprint 2: Forms and mutating state
-                  - Sprint 3: Component lifecycle and complex interactions
-                  - Sprint 4: Asynchronous data (integrating an API)
+                  - Sprint 3: Asynchronous data (integrating an API)
+                  - Sprint 4: Performance and Architecture
                   - References and how to keep learning
                   <aside class="notes">
                     - Hands on learning practical stuff, but also understand fundamentals.
@@ -640,7 +640,7 @@
                 <section data-markdown>
                   <script type="text/template">
                     ## State
-                    I'll add a little "favorite" indicator on books like that works like this:
+                    I'll add a little "favorite" indicator on books that works like this:
                     <br />
                     ![State UI](./img/state.gif)
                     <div class="section">Sprint 1</div>
@@ -1018,9 +1018,11 @@
                   <script type="text/template">
                     <div class="section">Sprint 2</div>
                     ## That was a lot of typing...
-                    - React is verbose, but for complex apps, the architectural benefits are often worth it.
-                    - As forms get more complicated it's nice to have input values match variables.
-                    - If you're sure you don't need a full controlled input, you can always just grab values from the html element. See [uncontrolled inputs](https://facebook.github.io/react/docs/uncontrolled-components.html) in the docs.
+                    <ul class="fragment">
+                      - React is verbose, but for complex apps, the architectural benefits are often worth it.
+                      - As forms get more complicated it's nice to have input values match variables.
+                      - If you're sure you don't need a full controlled input, you can always just grab values from the html element. See [uncontrolled inputs](https://facebook.github.io/react/docs/uncontrolled-components.html) in the docs.
+                    </ul>
                     <aside class="notes">
                       - React/Flux/Redux do not try to eliminate boilerplate, they show you everything.
                       - More complicated forms might feature: validation, asynchronous submission
@@ -1181,6 +1183,7 @@
                     ```
                     <aside class="notes">
                       - Does this look repetetive?  You can totally use `target.name` to write a generic handler for both.  See the [React Form docs](https://facebook.github.io/react/docs/forms.html).
+                      - What will the submit method look like?
                     </aside>
                   </script>
                 </section>
@@ -1807,7 +1810,7 @@
                   <script type="text/template">
                     <div class="section">Sprint 4</div>
                     ## [Performance](https://github.com/justinmc/react-workshop-app/commit/278a74f022005f2a0422ae038cd20f65e60fcf9e)
-                    - Now let's profile how it takes to modify our book list.
+                    - Now let's profile how long it takes to add a book.
                     ![Screen capture of adding new books](./img/perf_add_mutable.gif)
                     <aside class="notes">
                       - Notice:
@@ -2239,12 +2242,13 @@
                     <div class="fragment">
                       ```javascript
                         class UploadModal extends Component {
+                          ...
                           render() {
                             return (
                               <Modal
                                 open={this.state.open}
-                                onAccept={this.state.onFinishUpload}
-                                onClose={this.state.onClose}
+                                onAccept={this.onFinishUpload}
+                                onClose={this.onClose}
                               >
                                 <UploadForm />
                               </Modal>
